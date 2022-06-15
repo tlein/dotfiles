@@ -7,16 +7,18 @@
 3. [Neovim](#neovim)
 
 ## Symbolic Links
-Assumes `dotfiles` is placed under `~/Code`
+Assumes `dotfiles` is placed under `$HOME/Code`.
 
 ```bash
 # Zsh
-ln -s ~/Code/dotfiles/zsh/.zshrc ~/.zshrc;
-ln -s ~/Code/dotfiles/zsh/.zprofile ~/.zprofile;
-ln -s ~/Code/dotfiles/zsh/.p10k.zsh ~/.p10k.zsh
+ln -s $HOME/Code/dotfiles/zsh/.zshrc $HOME/.zshrc;
+ln -s $HOME/Code/dotfiles/zsh/.zprofile $HOME/.zprofile;
+ln -s $HOME/Code/dotfiles/zsh/.p10k.zsh $HOME/.p10k.zsh
+ln -s $HOME/Code/dotfiles/zsh/.zprofile.macos.bash $HOME/.zprofile.macos.bash
+ln -s $HOME/Code/dotfiles/zsh/.zprofile.linux.bash $HOME/.zprofile.linux.bash
 
 # Neovim
-ln -s  ~/Code/dotfiles/nvim ~/.config/nvim;
+ln -s $HOME/Code/dotfiles/nvim $HOME/.config/nvim;
 ```
 
 ## Zsh & Oh-My-Zsh
