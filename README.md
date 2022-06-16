@@ -2,70 +2,55 @@
 
 ## Table of Contents
 
-1. [Symbolic Links](#symbolic-links)
+1. [Install](#install)
 2. [Zsh & Oh-My-Zsh](#zsh-oh-my-zsh)
 3. [Neovim](#neovim)
 
-## Symbolic Links
-Assumes `dotfiles` is placed under `$HOME/Code`.
+## Install <a name="install"></a>
+
+Run the following script, it will autodetect your OS.
 
 ```bash
-# Zsh
-ln -s $HOME/Code/dotfiles/zsh/.zshrc $HOME/.zshrc;
-ln -s $HOME/Code/dotfiles/zsh/.zprofile $HOME/.zprofile;
-ln -s $HOME/Code/dotfiles/zsh/.p10k.zsh $HOME/.p10k.zsh
-ln -s $HOME/Code/dotfiles/zsh/.zprofile.macos.bash $HOME/.zprofile.macos.bash
-ln -s $HOME/Code/dotfiles/zsh/.zprofile.linux.bash $HOME/.zprofile.linux.bash
-
-# Neovim
-ln -s $HOME/Code/dotfiles/nvim $HOME/.config/nvim;
+./install.sh
 ```
 
-## Zsh & Oh-My-Zsh
+Current supported OSes:
 
-### Overview
-1. Install Zsh
-2. Install oh-my-zsh
-3. Install Powerlevel10k
-    - https://github.com/romkatv/powerlevel10k
-    - Install Fonts from README
-    - Configure
+- macOS
+- Linux
 
-### Install
+### macOS Callouts
 
-#### macOS (`5.8.1`)
+Everything _should_ be ready from a fresh start, the script will elevate to root
+when needed.
+
+### Linux Callouts
+
+The necessary fonts will install to a `.gitignore`'d directory at the root of
+this repository's directory: `dotfiles/external/fonts`. Since various Linux
+distros have different methods of installing fonts, these fonts are required to
+be manually installed after the `./install.sh` script is finished running.
+
+## Zsh & Oh-My-Zsh <a name="zsh-oh-my-zsh"></a>
+
+### macOS (`5.8.1`)
+
+#### Preview (light & dark mode supported)
+
 ![macOS-Zsh-Terminal-Dark-Mode](/assets/images/dark_mode_terminal_zsh.png#gh-dark-mode-only)
 ![macOS-Zsh-Terminal-Light-Mode](/assets/images/light_mode_terminal_zsh.png#gh-light-mode-only)
 
-```bash
-# zsh
-brew install zsh;
+## Neovim <a name="neovim"></a>
 
-# oh-my-zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)";
+### macOS (`v0.8.0-dev+406-g502f03fc0`)
 
-# Powerlevel10k
-# !!!INSTALL FONT!!!: https://github.com/romkatv/powerlevel10k#meslo-nerd-font-patched-for-powerlevel10k
-# Font instructions for macOS terminal at above link!
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k;
-```
+#### Install
 
-## Neovim
+1. Install VimR (GUI)
+   - https://github.com/qvacua/vimr/releases
+   - Set font to "MesloLGS NF Regular 13.0"
 
-### Install
+#### Preview (light & dark mode supported)
 
-#### macOS (`v0.8.0-dev+406-g502f03fc0`)
-
-
-1. Install neovim
-```bash
-cd ~/Code;
-curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim-macos.tar.gz;
-tar xzf nvim-macos.tar.gz;
-rm nvim-macos.tar.gz;
-```
-
-2. Install VimR (GUI)
-    - https://github.com/qvacua/vimr/releases
-    - Set font to "MesloLGS NF Regular 13.0"
-
+![macOS-Zsh-Terminal-Dark-Mode](/assets/images/dark_mode_terminal_zsh.png#gh-dark-mode-only)
+![macOS-Zsh-Terminal-Light-Mode](/assets/images/light_mode_terminal_zsh.png#gh-light-mode-only)

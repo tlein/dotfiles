@@ -1,10 +1,3 @@
-require('onedark').setup {
-    style = 'dark',
-    transparent = false,
-    term_colors = true,
-    ending_tildes = false,
-    toggle_style_key = '<leader>ts',
-    toggle_style_list = {'light', 'dark'}
-}
-
-require('onedark').load()
+vim.cmd("colorscheme one")
+vim.opt.background = "dark"
+vim.g.one_allow_italics = 1 -- Allow italics if available in color theme

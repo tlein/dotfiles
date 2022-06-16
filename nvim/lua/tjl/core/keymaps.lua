@@ -64,13 +64,17 @@ map("n", "<leader>q", ":q<CR>")
 map("n", "<leader>aq", ":q<CR>")
 map("n", "<leader>aaq", ":qa<CR>")
 
+-- :nnoremap <F12> :let &mouse=(empty(&mouse) ? 'a' : '')<CR>
+map("n", "<leader>ts", ":let &background=(&background == 'light' ? 'dark' : 'light')<CR>")
+
 -----------------------------------------------------------
 -- Applications and Plugins shortcuts
 -----------------------------------------------------------
 
 -- Telescope Maps
-map("n", "<leader>g", ":Telescope find_files<CR>")
 map("n", "<leader>c", ":Telescope command_center<CR>")
+command_center_map(":Telescope find_files<CR>", "Telescope (Fuzzy search files)", "n", "<leader>g")
+command_center_map(":Telescope live_grep<CR>", "Telescope (Grep in files)", "n", "<C-f>")
 
 -- Packer Sync
 command_center_map(":PackerSync<CR>", "Packer (Sync)", "n", "<C-p>")
@@ -83,10 +87,14 @@ map("t", "<Ctrl-d>", '<CMD>lua require("FTerm").toggle()<CR>')
 -- NvimTree
 command_center_map(":NvimTreeToggle<CR>", "Toggle NvimTree", "n", "<leader>e")
 command_center_map(":NvimTreeRefresh<CR>", "Refresh NvimTree", "n", "<C-n>")
-command_center_map(":NvimTreeFindFile<CR>", "Find current file in NvimTree", "n", "<C-f>")
+command_center_map(":NvimTreeFindFile<CR>", "Find current file in NvimTree", "n", "<C-i>")
 
 -- Markdown
 command_center_map("<Plug>MarkdownPreview", "Preview Markdown (opens browser)", "n", "<C-k>")
 
 -- Neoformat
 command_center_map(":Neoformat<CR>", "Neoformat Entire Document")
+
+-- Git diffview
+command_center_map(":DiffviewOpen<CR>", "Git Diff (Open)", "n", "<C-g>")
+command_center_map(":DiffviewClose<CR>", "Git Diff (Close)", "n", "<C-c>")

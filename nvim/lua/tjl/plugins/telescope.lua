@@ -18,11 +18,19 @@ telescope.setup {
         find_files = {
             hidden = true,
             file_ignore_patterns = {
-                ".git/", ".cache", "%.o", "%.a", "%.out", "%.class", "build/",
-                "install", ".idea/", ".DS_Store"
+                ".git/",
+                ".cache",
+                "%.o",
+                "%.a",
+                "%.out",
+                "%.class",
+                "build/",
+                "install/",
+                ".idea/",
+                ".DS_Store"
             }
         }
     }
 }
 
-telescope.load_extension('command_center')
+telescope.load_extension("command_center")
