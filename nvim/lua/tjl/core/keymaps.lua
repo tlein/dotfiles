@@ -87,7 +87,7 @@ map("t", "<Ctrl-d>", '<CMD>lua require("FTerm").toggle()<CR>')
 -- NvimTree
 command_center_map(":NvimTreeToggle<CR>", "Toggle NvimTree", "n", "<leader>e")
 command_center_map(":NvimTreeRefresh<CR>", "Refresh NvimTree", "n", "<C-n>")
-command_center_map(":NvimTreeFindFile<CR>", "Find current file in NvimTree", "n", "<C-i>")
+command_center_map(":NvimTreeFindFile<CR>", "Find current file in NvimTree", "n", "<C-t>")
 
 -- Markdown
 command_center_map("<Plug>MarkdownPreview", "Preview Markdown (opens browser)", "n", "<C-k>")
