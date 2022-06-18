@@ -5,4 +5,7 @@ case `uname` in
   Linux)
     source $HOME/.zprofile.linux.zsh
   ;;
+  MINGW64*)
+    source $HOME/.zprofile.mingw64.zsh
+  ;;
 esac

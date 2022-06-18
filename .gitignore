@@ -3,3 +3,5 @@
 nvim/plugin/packer_compiled.lua
 
 external/
+
+nvim/plugin/

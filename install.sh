@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Set a default value of install-specific variables for first time install
-code_dir="${TJL_CODE_DIR:-$HOME/Code}"
 
 case $(uname) in
     Darwin)
@@ -13,6 +11,11 @@ case $(uname) in
         echo "Installing for Linux..."
         echo ""
         source $code_dir/dotfiles/install.linux.sh
+        ;;
+    MINGW64*)
+        echo "Installing for MinGW64..."
+        echo ""
+        source $code_dir/dotfiles/install.mingw64.sh
         ;;
     *)
         echo "Unknown OS! Quitting install"
