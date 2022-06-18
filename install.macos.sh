@@ -5,13 +5,13 @@ sleep 0.5
 # Symbolic Links
 
 # Zsh
-ln -s -f $code_dir/dotfiles/zsh/.zshrc $HOME/.zshrc
-ln -s -f $code_dir/dotfiles/zsh/.zprofile $HOME/.zprofile
-ln -s -f $code_dir/dotfiles/zsh/.p10k.zsh $HOME/.p10k.zsh
-ln -s -f $code_dir/dotfiles/zsh/.zprofile.macos.zsh $HOME/.zprofile.macos.zsh
+ln -s -f $HOME/Code/dotfiles/zsh/.zshrc $HOME/.zshrc
+ln -s -f $HOME/Code/dotfiles/zsh/.zprofile $HOME/.zprofile
+ln -s -f $HOME/Code/dotfiles/zsh/.p10k.zsh $HOME/.p10k.zsh
+ln -s -f $HOME/Code/dotfiles/zsh/.zprofile.macos.zsh $HOME/.zprofile.macos.zsh
 
 # Neovim
-ln -s -f $code_dir/dotfiles/nvim $HOME/.config/nvim
+ln -s -f $HOME/Code/dotfiles/nvim $HOME/.config/nvim
 
 ###########################
 # Programs
@@ -51,7 +51,6 @@ curl -o "MesloLGS NF Regular.ttf" -LO 'https://github.com/romkatv/powerlevel10k-
 curl -o "MesloLGS NF Bold.ttf" -LO 'https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf'
 curl -o "MesloLGS NF Italic.ttf" -LO 'https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf'
 curl -o "MesloLGS NF Bold Italic.ttf" -LO 'https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf'
-cd $code_dir/dotfiles
+cd $HOME/Code/dotfiles
 
-echo "Done! No further action need"
-zsh
+echo "Done! No further action need, though you might want to reboot your terminal"
