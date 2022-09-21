@@ -12,6 +12,8 @@ local on_attach = function(client, bufnr)
     vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
 end
 
+local nvim_lsp = require("lspconfig")
+
 ---------------------------------------
 -- C/C++ using Clangd
 require("lspconfig").clangd.setup({on_attach = on_attach})
@@ -39,5 +41,26 @@ require("lspconfig").sumneko_lua.setup(
             }
         },
         on_attach = on_attach
+    }
+)
+
+---------------------------------------
+-- C#
+require("lspconfig").omnisharp.setup(
+    {
+        cmd = {
+            "/Users/tucker/omnisharp/run"
+        },
+        root_dir = nvim_lsp.util.root_pattern("*.csproj", "*.sln")
+    }
+)
+
+---------------------------------------
+-- TypeScript
+require("lspconfig").tsserver.setup(
+    {
+        on_attach = on_attach,
+        filetypes = {"typescript", "typescriptreact", "typescript.tsx"},
+        cmd = {"typescript-language-server", "--stdio"}
     }
 )

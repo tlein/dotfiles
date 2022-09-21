@@ -6,4 +6,5 @@ vim.g.neoformat_enabled_cpp = {"clangformat"}
 vim.g.neoformat_enabled_c = {"clangformat"}
 vim.g.neoformat_enabled_lua = {"luafmt"}
 vim.g.neoformat_enabled_sh = {"shfmt"}
+vim.g.neoformat_enabled_cmake = {}
 vim.g.shfmt_opt = "-ci"

@@ -1,0 +1,4 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": ["css", "js", "jsx", "ts", "tsx"],
+  "javascript.validate.enable": false
+}

@@ -13,16 +13,26 @@ local function map(mode, lhs, rhs, opts)
 end
 
 local function command_center_map(command_cmd, command_desc, shortcut_mode, shortcut_keybind)
-    local options = {noremap = true}
-    command_center.add(
-        {
+    if shortcut_mode then
+        command_center.add(
             {
-                description = command_desc,
-                cmd = command_cmd,
-                keybindings = {{shortcut_mode, shortcut_keybind, {noremap = true}}}
+                {
+                    description = command_desc,
+                    cmd = command_cmd,
+                    keybindings = {{shortcut_mode, shortcut_keybind, {noremap = true}}}
+                }
             }
-        }
-    )
+        )
+    else
+        command_center.add(
+            {
+                {
+                    description = command_desc,
+                    cmd = command_cmd
+                }
+            }
+        )
+    end
 end
 
 -- Change leader to a semi-colon
@@ -54,7 +64,7 @@ map("n", "<leader>k", "<C-w>k")
 map("n", "<leader>l", "<C-w>l")
 
 -- Reload configuration without restart nvim
-map("n", "<leader>r", ":so %<CR>")
+map("n", "<leader>r", ":Restart<CR>")
 
 -- Fast saving with <leader> and s
 map("n", "<leader>w", ":w<CR>")
@@ -62,7 +72,7 @@ map("n", "<leader>w", ":w<CR>")
 -- Close all windows and exit from Neovim with <leader> and q
 map("n", "<leader>q", ":q<CR>")
 map("n", "<leader>aq", ":q<CR>")
-map("n", "<leader>aaq", ":qa<CR>")
+map("n", "<leader>aaq", ":qa!<CR>")
 
 -- :nnoremap <F12> :let &mouse=(empty(&mouse) ? 'a' : '')<CR>
 map("n", "<leader>ts", ":let &background=(&background == 'light' ? 'dark' : 'light')<CR>")
@@ -93,8 +103,11 @@ command_center_map(":NvimTreeFindFile<CR>", "Find current file in NvimTree", "n"
 command_center_map("<Plug>MarkdownPreview", "Preview Markdown (opens browser)", "n", "<C-k>")
 
 -- Neoformat
-command_center_map(":Neoformat<CR>", "Neoformat Entire Document")
+command_center_map(":Neoformat<CR>", "Neoformat Entire Document", nil, nil)
 
 -- Git diffview
 command_center_map(":DiffviewOpen<CR>", "Git Diff (Open)", "n", "<C-g>")
 command_center_map(":DiffviewClose<CR>", "Git Diff (Close)", "n", "<C-c>")
+
+-- Spectre (aka Find and Replace)
+command_center_map("<cmd>lua require('spectre').open()<CR>", "Find and Replace in Workspace (Spectre)", "n", "<C-j>")

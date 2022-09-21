@@ -1,16 +1,16 @@
 export=TJL_CODE_DIR=-$HOME/Code
 
-# teg
-if [ -f ~/.tegrc ]; then
-    . ~/.tegrc
-fi
-
 # neovim
 export PATH=$PATH:$HOME/Code/neovim/bin
 alias gvim="vimr -s"
 
+# teg
+export TEG_HOME=$HOME/Code/smarterslate
+export TEG_TM_SDK_DIR=$HOME/Code/themachinery_2022.5.a
+
 # smarterslate
 export CV_HOME=$HOME/Code/smarterslate
+export CV_EXTLIBS_DIR=$HOME/.circavia/extlibs
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
@@ -23,7 +23,7 @@ export RAFT_PATH=$HOME/Code/ILikeDucks/Raft
 export PATH=$PATH:$RAFT_PATH/release/bin
 export NODE_PATH=$NODE_PATH:$RAFT_PATH/release/lib
 
-export ANDROID_NDK=$HOME/Library/Android/sdk/ndk/23.1.7779620
+export ANDROID_NDK=$HOME/Library/Android/sdk/ndk/24.0.8215888
 export ANDROID_HOME=$HOME/Library/Android/sdk
 
 export PATH=$PATH:$ANDROID_NDK
@@ -53,3 +53,11 @@ export MANPATH="/opt/local/share/man:$MANPATH"
 
 export PATH=$PATH:/opt/lua-language-server/bin
 export PATH=$PATH:$HOME/go/bin
+
+export CC=/usr/bin/clang
+export CXX=/usr/bin/clang++
+export FrameworkPathOverride=/Library/Frameworks/Mono.framework/Versions/Current/lib/mono/4.8-api
+
+export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
+export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools

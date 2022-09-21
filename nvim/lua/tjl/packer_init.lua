@@ -41,6 +41,10 @@ return packer.startup(
 
         -- LSP
         use("neovim/nvim-lspconfig")
+        use("hrsh7th/nvim-compe")
+
+        -- LSPkind
+        use("onsails/lspkind-nvim")
 
         -- Icons
         use("kyazdani42/nvim-web-devicons")
@@ -66,7 +70,7 @@ return packer.startup(
         )
 
         -- Statusline
-        use("adelarsq/neoline.vim")
+        -- use("adelarsq/neoline.vim")
 
         -- One Color Theme
         use("rakr/vim-one")
@@ -85,7 +89,7 @@ return packer.startup(
         )
 
         -- Neoformat (code formatter)
-        use("sbdchd/neoformat")
+        -- use("sbdchd/neoformat")
 
         -- Ale (linting)
         use("dense-analysis/ale")
@@ -94,7 +98,15 @@ return packer.startup(
         use("b3nj5m1n/kommentary")
 
         -- Git diff
-        use {"sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim"}
+        -- use {"sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim"}
+
+        -- Find all in workspace and replace
+        use {"windwp/nvim-spectre", requires = "nvim-lua/plenary.nvim"}
+
+        -- CoC for intellisense
+        use {"neoclide/coc.nvim", branch = "release"}
+
+        use {"ziglang/zig.vim"}
 
         -- Automatically set up your configuration after cloning packer.nvim
         -- Put this at the end after all plugins
