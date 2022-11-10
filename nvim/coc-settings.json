@@ -1,4 +1,39 @@
 {
-  "coc.preferences.formatOnSaveFiletypes": ["css", "js", "jsx", "ts", "tsx"],
-  "javascript.validate.enable": false
+  "diagnostic.errorSign": "✖",
+  "diagnostic.warningSign": "⚠",
+  "diagnostic.infoSign": "●",
+  "diagnostic.hintSign": "○",
+  "diagnostic.checkCurrentLine": true,
+  "diagnostic.virtualText": true,
+  "diagnostic.locationlistUpdate": false,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "c",
+    "h",
+    "cpp",
+    "hpp",
+    "inl",
+    "css",
+    "js",
+    "jsx",
+    "ts",
+    "tsx",
+    "zig",
+    "lua"
+  ],
+  "javascript.validate.enable": false,
+  "zig.enabled": true,
+  "zig.startUpMessage": true,
+  "zig.path": "$HOME/zls/zls",
+  "zig.debugLog": false,
+  "diagnostic.enable": false,
+  "suggest.invalidInsertCharacters": [],
+  "languageserver": {
+    "zk": {
+      "command": "zk",
+      "args": ["lsp"],
+      "trace.server": "messages",
+      "filetypes": ["markdown"]
+    }
+  },
+  "Lua.telemetry.enable": true
 }

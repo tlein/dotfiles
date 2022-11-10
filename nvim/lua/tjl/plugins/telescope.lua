@@ -13,13 +13,14 @@ telescope.setup {
             auto_replace_desc_with_cmd = false
         }
     },
-    defaults = {mappings = {i = {["<esc>"] = telescope_actions.close}}},
+    defaults = { mappings = { i = { ["<esc>"] = telescope_actions.close } } },
     pickers = {
         find_files = {
             hidden = true,
             file_ignore_patterns = {
                 ".git/",
                 ".cache",
+                "node_modules/",
                 "%.o",
                 "%.a",
                 "%.out",
@@ -34,3 +35,4 @@ telescope.setup {
 }
 
 telescope.load_extension("command_center")
+telescope.load_extension("recent_files")

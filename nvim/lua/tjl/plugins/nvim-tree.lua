@@ -27,7 +27,6 @@ nvim_tree.setup {
     update_cwd = true,
     view = {
         width = 32,
-        height = 30,
         hide_root_folder = false,
         side = "left",
         preserve_window_proportions = false,
@@ -45,18 +44,18 @@ nvim_tree.setup {
         add_trailing = false,
         group_empty = false,
         highlight_git = false,
-        highlight_opened_files = "none",
+        highlight_opened_files = "false",
         root_folder_modifier = ":~",
         indent_markers = {
             enable = false,
-            icons = {corner = "└ ", edge = "│ ", none = "  "}
+            icons = { corner = "└ ", edge = "│ ", none = "  " }
         },
         icons = {
             webdev_colors = true,
             git_placement = "before",
             padding = " ",
             symlink_arrow = " ➛ ",
-            show = {file = true, folder = true, folder_arrow = true, git = true},
+            show = { file = true, folder = true, folder_arrow = true, git = true },
             glyphs = {
                 default = "",
                 symlink = "",
@@ -81,22 +80,22 @@ nvim_tree.setup {
                 }
             }
         },
-        special_files = {"Cargo.toml", "Makefile", "README.md", "readme.md"}
+        special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md" }
     },
-    hijack_directories = {enable = true, auto_open = true},
-    update_focused_file = {enable = false, update_cwd = false, ignore_list = {}},
+    hijack_directories = { enable = true, auto_open = true },
+    update_focused_file = { enable = false, update_cwd = false, ignore_list = {} },
     ignore_ft_on_setup = {},
-    system_open = {cmd = "", args = {}},
+    system_open = { cmd = "", args = {} },
     diagnostics = {
         enable = false,
         show_on_dirs = false,
-        icons = {hint = "", info = "", warning = "", error = ""}
+        icons = { hint = "", info = "", warning = "", error = "" }
     },
-    filters = {dotfiles = false, custom = {".DS_Store", "__.*"}, exclude = {}},
-    git = {enable = true, ignore = true, timeout = 400},
+    filters = { dotfiles = false, custom = { ".DS_Store", "__.*" }, exclude = {} },
+    git = { enable = true, ignore = true, timeout = 400 },
     actions = {
         use_system_clipboard = true,
-        change_dir = {enable = true, global = false, restrict_above_cwd = false},
+        change_dir = { enable = true, global = false, restrict_above_cwd = false },
         open_file = {
             quit_on_open = false,
             resize_window = true,
@@ -108,13 +107,13 @@ nvim_tree.setup {
                         "notify", "packer", "qf", "diff", "fugitive",
                         "fugitiveblame"
                     },
-                    buftype = {"nofile", "terminal", "help"}
+                    buftype = { "nofile", "terminal", "help" }
                 }
             }
         }
     },
-    trash = {cmd = "trash", require_confirm = true},
-    live_filter = {prefix = "[FILTER]: ", always_show_folders = true},
+    trash = { cmd = "trash", require_confirm = true },
+    live_filter = { prefix = "[FILTER]: ", always_show_folders = true },
     log = {
         enable = false,
         truncate = false,

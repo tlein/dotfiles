@@ -4,7 +4,7 @@ local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 
 if fn.empty(fn.glob(install_path)) > 0 then
     PACKER_BOOTSTRAP =
-        fn.system(
+    fn.system(
         {
             "git",
             "clone",
@@ -52,25 +52,27 @@ return packer.startup(
         -- Tag viewer
         use("preservim/tagbar")
 
-        -- Treesitter interface
-        use("nvim-treesitter/nvim-treesitter")
+        -- Treesitter provides better syntax highlighting for configured languages
+        use {
+            'nvim-treesitter/nvim-treesitter',
+            run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
+        }
 
         -- Telescope (fuzzy search)
         use(
             {
                 "nvim-telescope/telescope.nvim",
-                requires = {{"nvim-lua/plenary.nvim"}}
+                requires = { { "nvim-lua/plenary.nvim" } }
             }
         )
         use(
             {
                 "gfeiyou/command-center.nvim",
-                requires = {"nvim-telescope/telescope.nvim"}
+                requires = { "nvim-telescope/telescope.nvim" }
             }
         )
 
-        -- Statusline
-        -- use("adelarsq/neoline.vim")
+        use { "smartpde/telescope-recent-files" }
 
         -- One Color Theme
         use("rakr/vim-one")
@@ -88,12 +90,6 @@ return packer.startup(
             }
         )
 
-        -- Neoformat (code formatter)
-        -- use("sbdchd/neoformat")
-
-        -- Ale (linting)
-        use("dense-analysis/ale")
-
         -- Commenting blocks
         use("b3nj5m1n/kommentary")
 
@@ -101,17 +97,44 @@ return packer.startup(
         -- use {"sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim"}
 
         -- Find all in workspace and replace
-        use {"windwp/nvim-spectre", requires = "nvim-lua/plenary.nvim"}
+        use { "windwp/nvim-spectre", requires = "nvim-lua/plenary.nvim" }
 
         -- CoC for intellisense
-        use {"neoclide/coc.nvim", branch = "release"}
+        use { "neoclide/coc.nvim", branch = "release" }
 
-        use {"ziglang/zig.vim"}
+        -- Zig language support
+        use { "ziglang/zig.vim" }
+
+        -- Include frequency in fuzzy search with telescope
+        use {
+            "nvim-telescope/telescope-frecency.nvim",
+            config = function()
+                require "telescope".load_extension("frecency")
+            end,
+            requires = { "kkharji/sqlite.lua" }
+        }
+
+        -- Sets the background to light or dark based on the OS theme
+        use('f-person/auto-dark-mode.nvim')
+
+        -- Zettelkasten cmd line tool integration
+        use("mickael-menu/zk-nvim")
+
+        -- Highlights the line you're on (supposed to highlight the word and other instances your on with LSP
+        -- integration, but that doesn't seem to work for me.
+        use("yamatsum/nvim-cursorline")
+
+        -- Status line
+        use {
+            'nvim-lualine/lualine.nvim',
+            requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+        }
 
         -- Automatically set up your configuration after cloning packer.nvim
         -- Put this at the end after all plugins
         if PACKER_BOOTSTRAP then
             require("packer").sync()
         end
+
     end
 )

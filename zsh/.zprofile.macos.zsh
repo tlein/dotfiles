@@ -6,7 +6,6 @@ alias gvim="vimr -s"
 
 # teg
 export TEG_HOME=$HOME/Code/smarterslate
-export TEG_TM_SDK_DIR=$HOME/Code/themachinery_2022.5.a
 
 # smarterslate
 export CV_HOME=$HOME/Code/smarterslate
@@ -61,3 +60,10 @@ export FrameworkPathOverride=/Library/Frameworks/Mono.framework/Versions/Current
 export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
 export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
+export PATH=$PATH:/opt/zig
+export PATH=$PATH:$HOME/zls
+
+# Google's depot_tools for bootstrapping google projects (aka Dawn for me)
+export PATH=$PATH:$HOME/Code/depot_tools
+
+bindkey '\e.' insert-last-word

@@ -13,6 +13,9 @@ ln -s -f $HOME/Code/dotfiles/zsh/.zprofile.macos.zsh $HOME/.zprofile.macos.zsh
 # Neovim
 ln -s -f $HOME/Code/dotfiles/nvim $HOME/.config/nvim
 
+# iTerm2
+ln -s -f $HOME/Code/dotfiles/iTerm2/scripts $HOME/Library/Application\ Support/iTerm2/Scripts
+
 ###########################
 # Programs
 

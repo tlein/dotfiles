@@ -21,6 +21,7 @@ opt.completeopt = "menuone,noinsert,noselect" -- Autocomplete options
 opt.number = true -- Show line number
 opt.showmatch = true -- Highlight matching parenthesis
 opt.foldmethod = "marker" -- Enable folding (default 'foldmarker')
+opt.foldlevel = 20 -- Enable folding (default 'foldmarker')
 opt.colorcolumn = "120" -- Line lenght marker at 120 columns
 opt.splitright = true -- Vertical split to the right
 opt.splitbelow = true -- Horizontal split to the bottom
