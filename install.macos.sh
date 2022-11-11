@@ -16,6 +16,9 @@ ln -s -f $HOME/Code/dotfiles/nvim $HOME/.config/nvim
 # iTerm2
 ln -s -f $HOME/Code/dotfiles/iTerm2/scripts $HOME/Library/Application\ Support/iTerm2/Scripts
 
+# zls
+ln -s -f $HOME/Code/dotfiles/zls/zls.json $HOME/Library/Application\ Support/zls.json
+
 ###########################
 # Programs
 
