@@ -18,6 +18,12 @@ cmd /c 'mklink C:\msys64\home\tucker\.zprofile.mingw64.zsh /h C:\Users\tucker\Co
 rm /c/Users/tucker/AppData/Local/nvim
 cmd /c 'mklink C:\Users\tucker\AppData\Local\nvim /d C:\Users\tucker\Code\dotfiles\nvim'
 
+# Conan
+cmd /c 'mklink C:\msys64\home\tucker\.conan /d C:\Users\tucker\.conan'
+
+# JFrog Artifactory
+cmd /c 'mklink C:\msys64\home\tucker\jfrog /d C:\Users\tucker\jfrog'
+
 ###########################
 # Programs
 
@@ -60,6 +66,8 @@ echo "Need to install mingw64 conan profile to C:/Users/tucker/.conan/profiles/m
 # [options]
 # [env]
 
+# ripgrep
+pacman -S mingw-w64-x86_64-ripgrep
 
 ###########################
 # External Assets

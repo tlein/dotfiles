@@ -38,8 +38,8 @@ opt.wrap = false -- Turn off word wrap
 -- Tabs, indent
 -----------------------------------------------------------
 opt.expandtab = true -- Use spaces instead of tabs
-opt.shiftwidth = 4 -- Shift 4 spaces when tab
-opt.tabstop = 4 -- 1 tab == 4 spaces
+opt.shiftwidth = 2 -- Shift 4 spaces when tab
+opt.tabstop = 2 -- 1 tab == 4 spaces
 opt.smartindent = true -- Autoindent new lines
 
 -----------------------------------------------------------
@@ -59,26 +59,28 @@ opt.shortmess:append "sI"
 
 -- Disable builtins plugins
 local disabled_built_ins = {
-    "netrw",
-    "netrwPlugin",
-    "netrwSettings",
-    "netrwFileHandlers",
-    "gzip",
-    "zip",
-    "zipPlugin",
-    "tar",
-    "tarPlugin",
-    "getscript",
-    "getscriptPlugin",
-    "vimball",
-    "vimballPlugin",
-    "2html_plugin",
-    "logipat",
-    "rrhelper",
-    "spellfile_plugin",
-    "matchit"
+  "netrw",
+  "netrwPlugin",
+  "netrwSettings",
+  "netrwFileHandlers",
+  "gzip",
+  "zip",
+  "zipPlugin",
+  "tar",
+  "tarPlugin",
+  "getscript",
+  "getscriptPlugin",
+  "vimball",
+  "vimballPlugin",
+  "2html_plugin",
+  "logipat",
+  "rrhelper",
+  "spellfile_plugin",
+  "matchit"
 }
 
+opt.shellcmdflag = "-c"
+
 for _, plugin in pairs(disabled_built_ins) do
-    g["loaded_" .. plugin] = 1
+  g["loaded_" .. plugin] = 1
 end
