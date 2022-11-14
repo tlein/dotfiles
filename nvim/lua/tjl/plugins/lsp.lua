@@ -1,6 +1,4 @@
 local lspconfig = require('lspconfig')
-local lspconfig_util = require('lspconfig.util')
-local lsp_configs = require('lspconfig/configs')
 local mason = require('mason')
 local mason_lspconfig = require('mason-lspconfig')
 local mason_tool_installer = require('mason-tool-installer')
@@ -25,18 +23,6 @@ null_ls.setup({
   },
 })
 
-lsp_configs.zk = {
-  default_config = {
-    cmd = { 'zk', 'lsp' },
-    filetypes = { 'markdown' },
-    root_dir = function()
-      return lspconfig_util.root_pattern('.zk')
-    end,
-    settings = {},
-    single_file_support = false,
-  },
-}
-
 local language_tools = {
   'lua-language-server',
   'stylua',
@@ -45,7 +31,6 @@ local language_tools = {
   'shfmt',
   'misspell',
   'zls',
-  'zk',
 }
 
 local language_servers = {
@@ -77,7 +62,6 @@ local language_servers = {
   bashls = {},
   omnisharp = {},
   tsserver = {},
-  zk = {},
 }
 
 mason_tool_installer.setup({

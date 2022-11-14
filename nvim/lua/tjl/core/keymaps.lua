@@ -53,6 +53,8 @@ map('n', '<leader>v', ':nohl<CR>')
 -- Create splits
 map('n', '<leader>s', ':vsplit<CR>')
 map('n', '<leader>S', ':split<CR>')
+map('n', '<leader>n', ':vnew<CR>')
+map('n', '<leader>N', ':new<CR>')
 
 -- Move around splits using Ctrl + {h,j,k,l}
 map('n', '<leader>h', '<C-w>h')
@@ -60,8 +62,19 @@ map('n', '<leader>j', '<C-w>j')
 map('n', '<leader>k', '<C-w>k')
 map('n', '<leader>l', '<C-w>l')
 
+-- Resize splits
+map('n', '<Up>', '<C-w>+')
+map('n', '<Right>', '<C-w>>')
+map('n', '<Down>', '<C-w>-')
+map('n', '<Left>', '<C-w><')
+map('n', '<S-Up>', '10<C-w>+')
+map('n', '<S-Right>', '10<C-w>>')
+map('n', '<S-Down>', '10<C-w>-')
+map('n', '<S-Left>', '10<C-w><')
+
 -- Reload configuration without restart nvim
 map('n', '<leader>r', ':Restart<CR>')
+command_center_map(':Restart<CR>', "Attempt nvim config reload (probably won't work)", nil, nil)
 
 -- Fast saving with <leader> and s
 map('n', '<leader>w', ':w<CR>')
@@ -97,7 +110,7 @@ command_center_map(':NvimTreeRefresh<CR>', 'Refresh NvimTree', 'n', '<C-n>')
 command_center_map(':NvimTreeFindFile<CR>', 'Find current file in NvimTree', 'n', '<C-t>')
 
 -- Markdown
-command_center_map('<Plug>MarkdownPreview', 'Preview Markdown (opens browser)', 'n', '<C-k>')
+command_center_map(':MarkdownPreview<CR>', 'Preview Markdown (opens browser)', 'n', '<C-k>')
 
 -- Lsp stuff like Format, Sort imports, etc...
 command_center_map(':lua vim.lsp.buf.format()<CR>', 'Format Entire Document', nil, nil)
@@ -109,31 +122,3 @@ command_center_map(':DiffviewClose<CR>', 'Git Diff (Close)', 'n', '<C-c>')
 
 -- Spectre (aka Find and Replace)
 command_center_map("<cmd>lua require('spectre').open()<CR>", 'Find and Replace in Workspace (Spectre)', 'n', '<C-j>')
-
--- Zellenkasten
--- Open notes.
-map('n', '<leader>zo', "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", opts)
--- Open notes associated with the selected tags.
-map('n', '<leader>zt', '<Cmd>ZkTags<CR>', opts)
--- Search for the notes matching a given query.
-map('n', '<leader>zf', "<Cmd>ZkNotes { sort = { 'modified' }, match = vim.fn.input('Search: ') }<CR>", opts)
--- Search for the notes matching the current visual selection.
-map('v', '<leader>zf', ":'<,'>ZkMatch<CR>", opts)
--- Create a new note after asking for its title.
--- This overrides the global `<leader>zn` mapping to create the note in the same directory as the current buffer.
-map('n', '<leader>zn', "<Cmd>ZkNew { dir = vim.fn.expand('%:p:h'), title = vim.fn.input('Title: ') }<CR>", opts)
--- Create a new note in the same directory as the current buffer, using the current selection for title.
-map('v', '<leader>znt', ":'<,'>ZkNewFromTitleSelection { dir = vim.fn.expand('%:p:h') }<CR>", opts)
--- Create a new note in the same directory as the current buffer, using the current selection for note content and asking for its title.
-map(
-  'v',
-  '<leader>znc',
-  ":'<,'>ZkNewFromContentSelection { dir = vim.fn.expand('%:p:h'), title = vim.fn.input('Title: ') }<CR>",
-  opts
-)
--- Open notes linking to the current buffer.
-map('n', '<leader>zb', '<Cmd>ZkBacklinks<CR>', opts)
--- Open notes linked by the current buffer.
-map('n', '<leader>zl', '<Cmd>ZkLinks<CR>', opts)
--- Open the code actions for a visual selection.
-map('v', '<leader>za', ":'<,'>lua vim.lsp.buf.range_code_action()<CR>", opts)

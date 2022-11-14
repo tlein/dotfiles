@@ -1,8 +1,27 @@
 export=TJL_CODE_DIR=-$HOME/Code
 
+function d {
+  TARGET="$HOME/.config/dirlinks/${1?}"
+  if [ -f "$TARGET" ]; then
+    cd `cat $TARGET`
+  else
+    echo "${TARGET?} quick link not found"
+  fi
+}
+
+function e {
+  TARGET="$HOME/.config/dirlinks/${1?}"
+  if [ -f "$TARGET" ]; then
+    cd `cat $TARGET`
+    nvim .
+  else
+    echo "${TARGET?} quick link not found"
+  fi
+}
+
 # neovim
 export PATH=$PATH:$HOME/Code/neovim/bin
-alias gvim="vimr -s"
+alias gvim="nvim"
 
 # teg
 export TEG_HOME=$HOME/Code/smarterslate
@@ -67,3 +86,5 @@ export PATH=$PATH:$HOME/zls
 export PATH=$PATH:$HOME/Code/depot_tools
 
 bindkey '\e.' insert-last-word
+
+

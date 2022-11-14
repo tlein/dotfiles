@@ -67,6 +67,9 @@ return packer.startup(function(use)
   -- Icons
   use('kyazdani42/nvim-web-devicons')
 
+  -- Color schemes
+  use({ 'catppuccin/nvim', as = 'catppuccin' })
+
   -- Tag viewer
   use('preservim/tagbar')
 
@@ -121,11 +124,12 @@ return packer.startup(function(use)
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
   })
 
+  -- fancy ui for vim.ui.input and vim.ui.select functionality
+  use({ 'stevearc/dressing.nvim' })
+
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if PACKER_BOOTSTRAP then
     require('packer').sync()
   end
-
-  use({ 'catppuccin/nvim', as = 'catppuccin' })
 end)

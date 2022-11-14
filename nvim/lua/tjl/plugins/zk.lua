@@ -1,20 +1,42 @@
-local zk = require("zk")
-local commands = require("zk.commands")
+local zk = require('zk')
+local zk_commands = require('zk.commands')
+local lsp_configs = require('lspconfig/configs')
+local lspconfig_util = require('lspconfig.util')
 
 zk.setup({
   -- can be "telescope", "fzf" or "select" (`vim.ui.select`)
   -- it's recommended to use "telescope" or "fzf"
-  picker = "telescope",
+  picker = 'telescope',
 
-  lsp = {},
+  lsp = {
+    -- `config` is passed to `vim.lsp.start_client(config)`
+    config = {
+      cmd = { 'zk', 'lsp' },
+      name = 'zk',
+      -- on_attach = ...
+      -- etc, see `:h vim.lsp.start_client()`
+    },
+
+    -- automatically attach buffers in a zk notebook that match the given filetypes
+    auto_attach = {
+      enabled = true,
+      filetypes = { 'markdown' },
+      root_dir = function()
+        return lspconfig_util.root_pattern('.zk')
+      end,
+    },
+  },
 })
 
 local function make_edit_fn(defaults, picker_options)
   return function(options)
-    options = vim.tbl_extend("force", defaults, options or {})
+    options = vim.tbl_extend('force', defaults, options or {})
     zk.edit(options, picker_options)
   end
 end
 
-commands.add("ZkOrphans", make_edit_fn({ orphan = true }, { title = "Zk Orphans" }))
-commands.add("ZkRecents", make_edit_fn({ createdAfter = "2 weeks ago", sort = { 'modified' } }, { title = "Zk Recents" }))
+zk_commands.add('ZkOrphans', make_edit_fn({ orphan = true }, { title = 'Zk Orphans' }))
+zk_commands.add(
+  'ZkRecents',
+  make_edit_fn({ createdAfter = '2 weeks ago', sort = { 'modified' } }, { title = 'Zk Recents' })
+)
