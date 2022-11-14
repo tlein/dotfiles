@@ -180,21 +180,3 @@ mason_lspconfig.setup_handlers({
     lspconfig.sumneko_lua.setup(server_opts)
   end,
 })
-
--- Setup zk with regular lspconfig instead of mason because of funky msys2 issues with it
-lsp_configs.zk = {
-  default_config = {
-    cmd = { 'zk', 'lsp' },
-    filetypes = { 'markdown' },
-    root_dir = function()
-      return lspconfig_util.root_pattern('.zk')
-    end,
-    settings = {},
-    single_file_support = false,
-  },
-}
-
-lspconfig['zk'].setup({
-  on_attach = my_on_attach,
-  capabilities = my_capabilities,
-})
