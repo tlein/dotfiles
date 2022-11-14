@@ -20,3 +20,7 @@ export PATH=$PATH:$TM_SDK_DIR/bin/Release
 
 # jfrog conan artifactory
 export JFROG_HOME=$HOME/jfrog
+
+# go
+export GOROOT=/mingw64/lib/go
+export GOPATH=/mingw64
