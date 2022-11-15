@@ -10,19 +10,19 @@ local opt = vim.opt -- Set options (global/buffer/windows-scoped)
 -----------------------------------------------------------
 -- General
 -----------------------------------------------------------
-opt.mouse = "a" -- Enable mouse support
-opt.clipboard = "unnamedplus" -- Copy/paste to system clipboard
+opt.mouse = 'a' -- Enable mouse support
+opt.clipboard = 'unnamedplus' -- Copy/paste to system clipboard
 opt.swapfile = false -- Don't use swapfile
-opt.completeopt = "menuone,noinsert,noselect" -- Autocomplete options
+opt.completeopt = 'menuone,noinsert,noselect' -- Autocomplete options
 
 -----------------------------------------------------------
 -- Neovim UI
 -----------------------------------------------------------
 opt.number = true -- Show line number
 opt.showmatch = true -- Highlight matching parenthesis
-opt.foldmethod = "marker" -- Enable folding (default 'foldmarker')
+opt.foldmethod = 'marker' -- Enable folding (default 'foldmarker')
 opt.foldlevel = 20 -- Enable folding (default 'foldmarker')
-opt.colorcolumn = "120" -- Line lenght marker at 120 columns
+opt.colorcolumn = '120' -- Line lenght marker at 120 columns
 opt.splitright = true -- Vertical split to the right
 opt.splitbelow = true -- Horizontal split to the bottom
 opt.ignorecase = true -- Ignore case letters when search
@@ -31,7 +31,7 @@ opt.linebreak = true -- Wrap on word boundary
 opt.termguicolors = true -- Enable 24-bit RGB colors
 opt.laststatus = 3 -- Set global statusline
 opt.list = true
-opt.listchars:append("space:⋅")
+opt.listchars:append('space:⋅')
 opt.wrap = false -- Turn off word wrap
 
 -----------------------------------------------------------
@@ -47,7 +47,7 @@ opt.smartindent = true -- Autoindent new lines
 -----------------------------------------------------------
 opt.hidden = true -- Enable background buffers
 opt.history = 100 -- Remember N lines in history
-opt.lazyredraw = true -- Faster scrolling
+-- opt.lazyredraw = true -- Faster scrolling
 opt.synmaxcol = 240 -- Max column for syntax highlight
 opt.updatetime = 700 -- ms to wait for trigger an event
 
@@ -55,32 +55,32 @@ opt.updatetime = 700 -- ms to wait for trigger an event
 -- Startup
 -----------------------------------------------------------
 -- Disable nvim intro
-opt.shortmess:append "sI"
+opt.shortmess:append('sI')
 
 -- Disable builtins plugins
 local disabled_built_ins = {
-  "netrw",
-  "netrwPlugin",
-  "netrwSettings",
-  "netrwFileHandlers",
-  "gzip",
-  "zip",
-  "zipPlugin",
-  "tar",
-  "tarPlugin",
-  "getscript",
-  "getscriptPlugin",
-  "vimball",
-  "vimballPlugin",
-  "2html_plugin",
-  "logipat",
-  "rrhelper",
-  "spellfile_plugin",
-  "matchit"
+  'netrw',
+  'netrwPlugin',
+  'netrwSettings',
+  'netrwFileHandlers',
+  'gzip',
+  'zip',
+  'zipPlugin',
+  'tar',
+  'tarPlugin',
+  'getscript',
+  'getscriptPlugin',
+  'vimball',
+  'vimballPlugin',
+  '2html_plugin',
+  'logipat',
+  'rrhelper',
+  'spellfile_plugin',
+  'matchit',
 }
 
-opt.shellcmdflag = "-c"
+opt.shellcmdflag = '-c'
 
 for _, plugin in pairs(disabled_built_ins) do
-  g["loaded_" .. plugin] = 1
+  g['loaded_' .. plugin] = 1
 end

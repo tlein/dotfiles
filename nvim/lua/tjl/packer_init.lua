@@ -73,6 +73,9 @@ return packer.startup(function(use)
   -- Tag viewer
   use('preservim/tagbar')
 
+  -- common utility library
+  use('nvim-lua/plenary.nvim')
+
   -- Telescope (fuzzy search)
   use({
     'nvim-telescope/telescope.nvim',
@@ -126,6 +129,9 @@ return packer.startup(function(use)
 
   -- fancy ui for vim.ui.input and vim.ui.select functionality
   use({ 'stevearc/dressing.nvim' })
+
+  -- notification toasts
+  use({ 'rcarriga/nvim-notify' })
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
