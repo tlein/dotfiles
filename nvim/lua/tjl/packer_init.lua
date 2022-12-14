@@ -21,7 +21,8 @@ vim.cmd([[
   augroup end
 ]])
 
--- Use a protected call so we don't error out on first use
+-- Use a protected call so we don't error out on first use but this is effectively the same as:
+-- require('packer')
 local status_ok, packer = pcall(require, 'packer')
 if not status_ok then
   return
@@ -103,7 +104,7 @@ return packer.startup(function(use)
   use('b3nj5m1n/kommentary')
 
   -- Git diff
-  -- use {"sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim"}
+  use({ 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' })
 
   -- Find all in workspace and replace
   use({ 'windwp/nvim-spectre', requires = 'nvim-lua/plenary.nvim' })
@@ -132,6 +133,16 @@ return packer.startup(function(use)
 
   -- notification toasts
   use({ 'rcarriga/nvim-notify' })
+
+  -- track LSP status information so we can use it places (such as the statusline)
+  use({ 'nvim-lua/lsp-status.nvim' })
+
+  -- for typescript dev
+  -- Disabling for now because prettier is breaking an include, with `null-ts`. That is overstepping its bounds and I'ma
+  -- put it in time out while I figure out if something so "big" and "opinionated" is appropriate for a plugin that isn't
+  -- hyper-constrainted to whatever project requires such opinions.
+  -- Also, its commented out in init.lua to configure the plugin and lsp.lua to configure the lsp nature of it
+  -- use({ 'MunifTanjim/prettier.nvim', requires = { 'jose-elias-alvarez/null-ls.nvim', 'neovim/nvim-lspconfig' } })
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

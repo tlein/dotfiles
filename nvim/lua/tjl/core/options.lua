@@ -32,7 +32,8 @@ opt.termguicolors = true -- Enable 24-bit RGB colors
 opt.laststatus = 3 -- Set global statusline
 opt.list = true
 opt.listchars:append('space:⋅')
-opt.wrap = false -- Turn off word wrap
+vim.wo.wrap = false -- Turn off word wrap
+vim.diagnostic.config({ virtual_text = true }) -- Change lsp error meta text into fancy "virtual" text so it doesn't occupy same space as normal nvim buffer code
 
 -----------------------------------------------------------
 -- Tabs, indent

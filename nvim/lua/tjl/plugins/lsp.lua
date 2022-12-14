@@ -1,39 +1,44 @@
-local lspconfig = require('lspconfig')
-local mason = require('mason')
-local mason_lspconfig = require('mason-lspconfig')
+-- To add a new lspserver do these steps:
+-- 1. Get the name of the plugin, upon writing these instructions I'm evalating an extension called "grammar_guard"
+--    because it sounds like an interesting thing to try and add spell-checking to my zk repo nvim
+--    experience.
+-- 2. To configure the lsp plugin, we use mason. Add it to lsp_servers_and_their_configs to have mason register the lsp.
+--    This is the entry point for what is normally manually calling `require("lspconfig").PLUGIN_NAME.setup()`. You can
+--    pass params to the eventual call to `require("lspconfig").PLUGIN_NAME.setup()` here as well, it's a table
+--    key->value pair of lsp plugin name -> options forwarded to `setup()`.
+-- 3. If the plugin requires an external, supporting, application (usually a cli tool) check if it can be installed by
+--    running :Mason in nvim, search for the plugin. If it is present, install it and add it to
+--    lsp_external_supporting_applications
+
+local M = {}
+
+-- # Module: teg-lspconfig
+--
+-- ## Meta
+--
+-- Allow the lsp_status lua library capture information about our lsp setup for an extended api to
+-- query for information about the state of the nvim-lspconfig system.
+local lsp_status = require('lsp-status')
+lsp_status.register_progress()
+--
+-- ## /Meta
+--
+-- ## Includes (to assist the module's impl)
+--
+local lspconfig = require('lspconfig') -- base neovim lsp functionality
+local mason = require('mason') -- "a plugin that allows you to easily manage external editor tooling such as LSP servers, DAP servers, linters, and formatters through a single interface"
+local mason_lspconfig = require('mason-lspconfig') -- "mason-lspconfig bridges mason.nvim with the lspconfig plugin - making it easier to use both plugins together."
 local mason_tool_installer = require('mason-tool-installer')
 local cmp = require('cmp')
+local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local luasnip = require('luasnip')
 local null_ls = require('null-ls')
-
-mason.setup({
-  ui = {
-    icons = {
-      package_uninstalled = '✗',
-      package_installed = '✓',
-      package_pending = '➜',
-    },
-  },
-})
-
-null_ls.setup({
-  sources = {
-    null_ls.builtins.formatting.stylua,
-    null_ls.builtins.formatting.zigfmt,
-  },
-})
-
-local language_tools = {
-  'lua-language-server',
-  'stylua',
-  'bash-language-server',
-  'codelldb',
-  'shfmt',
-  'misspell',
-  'zls',
-}
-
-local language_servers = {
+local teg = require('tjl/core/teg')
+--
+-- ## /Includes (to assist the module's impl)
+--
+-- ## Data (for the module)
+local lsp_servers_and_their_configs = {
   html = {},
   jsonls = {},
   rust_analyzer = {},
@@ -62,21 +67,65 @@ local language_servers = {
   bashls = {},
   omnisharp = {},
   tsserver = {},
+  taplo = {},
 }
 
-mason_tool_installer.setup({
-  ensure_installed = language_tools,
-  auto_update = false,
-  run_on_start = true,
+local lsp_external_supporting_applications = {
+  'lua-language-server',
+  'stylua',
+  'bash-language-server',
+  'codelldb',
+  'shfmt',
+  'misspell',
+  'zls',
+  'taplo',
+  -- prettier is in timeout, see packer_init's prettier line for details
+  -- 'prettier',
+  'vim-language-server',
+}
+
+local filetypes_to_ignore_formatting_for = teg.create_set_from_table({
+  'vim',
+  'gitignore',
+  'gitconfig',
+  'text',
+  'markdown',
+})
+-- ## /Data (for the module)
+--
+-- ## Initilization (of the module)
+--
+mason.setup({
+  ui = {
+    icons = {
+      package_uninstalled = '✗',
+      package_installed = '✓',
+      package_pending = '➜',
+    },
+  },
+})
+
+null_ls.setup({
+  sources = {
+    null_ls.builtins.formatting.stylua,
+    null_ls.builtins.formatting.zigfmt,
+    null_ls.builtins.formatting.taplo,
+    null_ls.builtins.formatting.beautysh,
+    -- prettier is in timeout, see packer_init's prettier line for details
+    -- null_ls.builtins.formatting.prettier,
+  },
 })
 
 mason_lspconfig.setup({
-  ensure_installed = vim.tbl_keys(language_servers),
+  ensure_installed = vim.tbl_keys(lsp_servers_and_their_configs),
   automatic_installation = false,
 })
 
--- Add additional capabilities supported by nvim-cmp
-local my_capabilities = require('cmp_nvim_lsp').default_capabilities()
+mason_tool_installer.setup({
+  ensure_installed = lsp_external_supporting_applications,
+  auto_update = false,
+  run_on_start = true,
+})
 
 -- nvim-cmp setup
 cmp.setup({
@@ -126,10 +175,14 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 
+-- Add additional capabilities supported by nvim-cmp and lsp-status
+M.my_capabilities = teg.merge_tables(cmp_nvim_lsp.default_capabilities(), lsp_status.capabilities)
+
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
-local my_on_attach = function(_, bufnr)
-  print('my_on_attach, keyamps')
+M.my_on_attach = function(client, bufnr)
+  lsp_status.on_attach(client)
+
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -155,18 +208,26 @@ local my_on_attach = function(_, bufnr)
   end, bufopts)
 end
 
-vim.cmd([[
-    augroup format_on_save
-      au!
-      au BufWritePre * lua vim.lsp.buf.format()
-    augroup end
-  ]])
+local TjlFormatOnSaveGroup = vim.api.nvim_create_augroup('tjl_format_on_save_augroup', { clear = true })
+vim.api.nvim_create_autocmd('BufWritePre', {
+  pattern = '*',
+  callback = function()
+    if filetypes_to_ignore_formatting_for[vim.bo.filetype] ~= nil then
+      teg.notify_trace('This filetype (' .. vim.bo.filetype .. ') is explicitly ignored for formatting!')
+      return
+    end
+
+    teg.notify_trace('Attempting to format filetype: ' .. vim.bo.filetype)
+    vim.lsp.buf.format()
+  end,
+  group = TjlFormatOnSaveGroup,
+})
 
 mason_lspconfig.setup_handlers({
   function(server_name)
-    local server_opts = language_servers[server_name] or {}
-    server_opts.on_attach = my_on_attach
-    server_opts.capabilities = my_capabilities
+    local server_opts = lsp_servers_and_their_configs[server_name] or {}
+    server_opts.on_attach = M.my_on_attach
+    server_opts.capabilities = M.my_capabilities
     lspconfig[server_name].setup(server_opts)
   end,
 
@@ -174,9 +235,21 @@ mason_lspconfig.setup_handlers({
   -- doesn't currently actually do anything different from the default, but you could change something for sumneko_lua
   -- if desired.
   ['sumneko_lua'] = function()
-    local server_opts = language_servers.sumneko_lua
-    server_opts.on_attach = my_on_attach
-    server_opts.capabilities = my_capabilities
+    local server_opts = lsp_servers_and_their_configs.sumneko_lua
+    server_opts.on_attach = M.my_on_attach
+    server_opts.capabilities = M.my_capabilities
     lspconfig.sumneko_lua.setup(server_opts)
   end,
 })
+
+M.enable_trace_logging = function()
+  vim.lsp.set_log_level('trace')
+  if vim.fn.has('nvim-0.5.1') == 1 then
+    require('vim.lsp.log').set_format_func(vim.inspect)
+  end
+end
+
+--
+-- ## /Initilization (of the module)
+
+return M

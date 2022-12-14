@@ -29,6 +29,8 @@ telescope.setup({
         'install/',
         '.idea/',
         '.DS_Store',
+        'zig-out/',
+        'zig-cache/',
       },
     },
   },
@@ -36,3 +38,4 @@ telescope.setup({
 
 telescope.load_extension('command_center')
 telescope.load_extension('recent_files')
+telescope.load_extension('notify')

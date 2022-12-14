@@ -4,12 +4,7 @@
 -- Based On: https://github.com/brainfucksec/neovim-lua
 --------------------------------------------
 
--- I'm sick of trying to get the lua lsp to find this, just force it as a global
-_G.vim = vim
-
-------------------------------------------
--- Load utils that can be used anywhere
-require('tjl/core/utils')
+require('tjl/core/global')
 
 --------------------------------------------
 -- Initialize Packer (Plugin Manager)
@@ -24,10 +19,10 @@ require('tjl/core/autocmds')
 
 ------------------------------------------
 -- Load plugin settings
-require('tjl/plugins/lsp')
+require('tjl/plugins/lsp').enable_trace_logging()
 require('tjl/plugins/lspkind')
 require('tjl/plugins/nvim-tree')
-require('tjl/plugins/treesitter')
+require('tjl/plugins/nvim-treesitter')
 require('tjl/plugins/FTerm')
 require('tjl/plugins/telescope')
 require('tjl/plugins/kommentary')

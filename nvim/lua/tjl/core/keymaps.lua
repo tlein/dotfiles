@@ -1,18 +1,18 @@
+local M = {}
+
 local command_center = require('command_center')
 
------------------------------------------------------------
--- Define keymaps of Neovim and installed plugins.
------------------------------------------------------------
 
-local function map(mode, lhs, rhs, opts)
+M.map = function(mode, lhs, rhs, opts)
   local options = { noremap = false, silent = true }
   if opts then
     options = vim.tbl_extend('force', options, opts)
   end
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
+local map = M.map
 
-local function command_center_map(command_cmd, command_desc, shortcut_mode, shortcut_keybind)
+M.command_center_map = function(command_cmd, command_desc, shortcut_mode, shortcut_keybind)
   if shortcut_mode then
     command_center.add({
       {
@@ -30,6 +30,7 @@ local function command_center_map(command_cmd, command_desc, shortcut_mode, shor
     })
   end
 end
+local command_center_map = M.command_center_map
 
 -- Change leader to a semi-colon
 vim.g.mapleader = ';'
@@ -122,3 +123,43 @@ command_center_map(':DiffviewClose<CR>', 'Git Diff (Close)', 'n', '<C-c>')
 
 -- Spectre (aka Find and Replace)
 command_center_map("<cmd>lua require('spectre').open()<CR>", 'Find and Replace in Workspace (Spectre)', 'n', '<C-j>')
+
+M.register_zk_keymaps = function()
+  -- Don't format on save when dealing with zettelkasten buffers
+  map('n', '<leader>w', ':set eventignore+=BufWritePre | w | set eventignore-=BufWritePre<CR>')
+
+  -- Preview a linked note.
+  map('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>')
+  -- Open the link under the caret.
+  map('n', '<CR>', '<Cmd>lua vim.lsp.buf.definition()<CR>')
+
+  -- Zellenkasten
+  -- Override basic file fuzzy search for "Open Recent Notes"
+  map('n', '<leader>g', '<Cmd>ZkRecents<CR>')
+  -- Open notes.
+  map('n', '<leader>zo', "<Cmd>ZkNotes { sort = { 'modified' } }<CR>")
+  -- Open notes associated with the selected tags.
+  map('n', '<leader>zt', '<Cmd>ZkTags<CR>')
+  -- Search for the notes matching a given query.
+  map('n', '<leader>zf', "<Cmd>ZkNotes { sort = { 'modified' }, match = vim.fn.input('Search: ') }<CR>")
+  -- Search for the notes matching the current visual selection.
+  map('v', '<leader>zf', ":'<,'>ZkMatch<CR>")
+  -- Create a new note after asking for its title.
+  map('n', '<leader>zn', ':lua require("tjl/extensions/my_zk").create_zettel_of_type("archive")<CR>')
+  map('n', '<leader>zzn', ':lua require("tjl/extensions/my_zk").create_zettel()<CR>')
+  -- Create a new note in the same directory as the current buffer, using the current selection for title.
+  map('v', '<leader>znt', ":'<,'>ZkNewFromTitleSelection { dir = vim.fn.expand('%:p:h') }<CR>")
+  -- Create a new note in the same directory as the current buffer, using the current selection for note content and asking for its title.
+  map('v',
+    '<leader>znc',
+    ":'<,'>ZkNewFromContentSelection { dir = vim.fn.expand('%:p:h'), title = vim.fn.input('Title: ') }<CR>"
+  )
+  -- Open notes linking to the current buffer.
+  map('n', '<leader>zb', '<Cmd>ZkBacklinks<CR>')
+  -- Open notes linked by the current buffer.
+  map('n', '<leader>zl', '<Cmd>ZkLinks<CR>')
+  -- Open the code actions for a visual selection.
+  map('v', '<leader>zc', ":'<,'>lua vim.lsp.buf.range_code_action()<CR>")
+end
+
+return M

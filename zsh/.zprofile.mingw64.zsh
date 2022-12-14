@@ -6,6 +6,9 @@ fi
 # neovim
 alias gvim="nvim"
 
+# teg
+export TEG_HOME=$HOME/Code/teg
+
 # smarterslate
 export CV_HOME=$HOME/Code/smarterslate
 export CV_EXTLIBS_DIR=$HOME/.circavia/extlibs

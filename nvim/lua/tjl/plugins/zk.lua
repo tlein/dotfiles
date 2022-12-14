@@ -1,7 +1,7 @@
 local zk = require('zk')
 local zk_commands = require('zk.commands')
-local lsp_configs = require('lspconfig/configs')
 local lspconfig_util = require('lspconfig.util')
+local lsp = require('tjl/plugins/lsp')
 
 zk.setup({
   -- can be "telescope", "fzf" or "select" (`vim.ui.select`)
@@ -13,6 +13,9 @@ zk.setup({
     config = {
       cmd = { 'zk', 'lsp' },
       name = 'zk',
+      single_file_support = false,
+      on_attach = lsp.my_on_attach,
+      capabilities = lsp.my_capabilities,
       -- on_attach = ...
       -- etc, see `:h vim.lsp.start_client()`
     },
