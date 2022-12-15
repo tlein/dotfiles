@@ -1,10 +1,8 @@
 # teg
-if [ -f ~/.tegrc ]; then
-    . ~/.tegrc
-fi
-
-# teg
 export TEG_HOME=$HOME/Code/teg
+export PATH=$PATH:$HOME/Code/teg
+
+# dotfiles
 export DOTFILES_HOME=$HOME/Code/dotfiles
 
 # neovim
@@ -14,5 +12,5 @@ alias gvim="nvim"
 # smarterslate
 export CV_HOME=$HOME/Code/smarterslate
 
-# conan
-export PATH=$PATH:$HOME/.local/bin
+# go
+export PATH=$PATH:/usr/local/go/bin

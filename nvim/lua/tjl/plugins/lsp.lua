@@ -68,6 +68,7 @@ local lsp_servers_and_their_configs = {
   omnisharp = {},
   tsserver = {},
   taplo = {},
+  yamlls = {},
 }
 
 local lsp_external_supporting_applications = {
@@ -76,12 +77,14 @@ local lsp_external_supporting_applications = {
   'bash-language-server',
   'codelldb',
   'shfmt',
-  'misspell',
   'zls',
   'taplo',
   -- prettier is in timeout, see packer_init's prettier line for details
   -- 'prettier',
   'vim-language-server',
+  'yaml-language-server',
+  'yamlfmt',
+  'beautysh',
 }
 
 local filetypes_to_ignore_formatting_for = teg.create_set_from_table({
@@ -111,6 +114,7 @@ null_ls.setup({
     null_ls.builtins.formatting.zigfmt,
     null_ls.builtins.formatting.taplo,
     null_ls.builtins.formatting.beautysh,
+    null_ls.builtins.formatting.yamlfmt,
     -- prettier is in timeout, see packer_init's prettier line for details
     -- null_ls.builtins.formatting.prettier,
   },
