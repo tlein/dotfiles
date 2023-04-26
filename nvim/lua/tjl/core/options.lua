@@ -1,62 +1,62 @@
 -----------------------------------------------------------
 -- General Neovim settings and configuration
 -----------------------------------------------------------
--- Default options are not included
--- See: https://neovim.io/doc/user/vim_diff.html
--- [2] Defaults - *nvim-defaults*
-local g = vim.g -- Global variables
-local opt = vim.opt -- Set options (global/buffer/windows-scoped)
-
 -----------------------------------------------------------
 -- General
 -----------------------------------------------------------
-opt.mouse = 'a' -- Enable mouse support
-opt.clipboard = 'unnamedplus' -- Copy/paste to system clipboard
-opt.swapfile = false -- Don't use swapfile
-opt.completeopt = 'menuone,noinsert,noselect' -- Autocomplete options
+vim.opt.mouse = 'a' -- Enable mouse support
+vim.opt.clipboard = 'unnamedplus' -- Copy/paste to system clipboard
+vim.opt.swapfile = false -- Don't use swapfile
+vim.opt.completeopt = 'menuone,noinsert,noselect' -- Autocomplete options
 
 -----------------------------------------------------------
 -- Neovim UI
 -----------------------------------------------------------
-opt.number = true -- Show line number
-opt.showmatch = true -- Highlight matching parenthesis
-opt.foldmethod = 'marker' -- Enable folding (default 'foldmarker')
-opt.foldlevel = 20 -- Enable folding (default 'foldmarker')
-opt.colorcolumn = '120' -- Line lenght marker at 120 columns
-opt.splitright = true -- Vertical split to the right
-opt.splitbelow = true -- Horizontal split to the bottom
-opt.ignorecase = true -- Ignore case letters when search
-opt.smartcase = true -- Ignore lowercase for the whole pattern
-opt.linebreak = true -- Wrap on word boundary
-opt.termguicolors = true -- Enable 24-bit RGB colors
-opt.laststatus = 3 -- Set global statusline
-opt.list = true
-opt.listchars:append('space:⋅')
+vim.opt.number = true -- Show line number
+vim.opt.showmatch = true -- Highlight matching parenthesis
+vim.opt.foldmethod = 'marker' -- Enable folding (default 'foldmarker')
+vim.opt.foldlevel = 20 -- Enable folding (default 'foldmarker')
+
+-- THIS IS ALSO SET IN tjl/core/autocmds.lua!
+vim.opt.colorcolumn = '100' -- Line lenght marker at 100 columns
+
+vim.opt.splitright = true -- Vertical split to the right
+vim.opt.splitbelow = true -- Horizontal split to the bottom
+vim.opt.ignorecase = true -- Ignore case letters when search
+vim.opt.smartcase = true -- Ignore lowercase for the whole pattern
+vim.opt.linebreak = true -- Wrap on word boundary
+vim.opt.termguicolors = true -- Enable 24-bit RGB colors
+vim.opt.laststatus = 3 -- Set global statusline
+vim.opt.list = true
+vim.opt.listchars:append('space:⋅')
+
+-- THIS IS ALSO SET IN tjl/core/autocmds.lua!
 vim.wo.wrap = false -- Turn off word wrap
+
 vim.diagnostic.config({ virtual_text = true }) -- Change lsp error meta text into fancy "virtual" text so it doesn't occupy same space as normal nvim buffer code
 
 -----------------------------------------------------------
 -- Tabs, indent
 -----------------------------------------------------------
-opt.expandtab = true -- Use spaces instead of tabs
-opt.shiftwidth = 2 -- Shift 4 spaces when tab
-opt.tabstop = 2 -- 1 tab == 4 spaces
-opt.smartindent = true -- Autoindent new lines
+vim.opt.expandtab = true -- Use spaces instead of tabs
+vim.opt.shiftwidth = 2 -- Shift 4 spaces when tab
+vim.opt.tabstop = 2 -- 1 tab == 4 spaces
+vim.opt.smartindent = true -- Autoindent new lines
 
 -----------------------------------------------------------
 -- Memory, CPU
 -----------------------------------------------------------
-opt.hidden = true -- Enable background buffers
-opt.history = 100 -- Remember N lines in history
--- opt.lazyredraw = true -- Faster scrolling
-opt.synmaxcol = 240 -- Max column for syntax highlight
-opt.updatetime = 700 -- ms to wait for trigger an event
+vim.opt.hidden = true -- Enable background buffers
+vim.opt.history = 100 -- Remember N lines in history
+-- vim.opt.lazyredraw = true -- Faster scrolling
+vim.opt.synmaxcol = 240 -- Max column for syntax highlight
+vim.opt.updatetime = 700 -- ms to wait for trigger an event
 
 -----------------------------------------------------------
 -- Startup
 -----------------------------------------------------------
 -- Disable nvim intro
-opt.shortmess:append('sI')
+vim.opt.shortmess:append('sI')
 
 -- Disable builtins plugins
 local disabled_built_ins = {
@@ -80,8 +80,8 @@ local disabled_built_ins = {
   'matchit',
 }
 
-opt.shellcmdflag = '-c'
+vim.opt.shellcmdflag = '-c'
 
 for _, plugin in pairs(disabled_built_ins) do
-  g['loaded_' .. plugin] = 1
+  vim.g['loaded_' .. plugin] = 1
 end

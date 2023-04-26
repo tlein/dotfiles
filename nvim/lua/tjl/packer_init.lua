@@ -29,124 +29,147 @@ if not status_ok then
 end
 
 -- Install plugins
-return packer.startup(function(use)
-  -- Packer (can manager itself)
-  use('wbthomason/packer.nvim')
+return packer.startup({
+  function(use)
+    -- Packer (can manager itself)
+    use('wbthomason/packer.nvim')
 
-  -- File explorer
-  use('kyazdani42/nvim-tree.lua')
+    -- File explorer
+    use('kyazdani42/nvim-tree.lua')
 
-  -- LSP
-  use({
-    'neovim/nvim-lspconfig',
-    wants = {
-      'mason.nvim',
-      'mason-lspconfig.nvim',
-      'mason-tool-installer.nvim',
+    -- LSP
+    use({
+      'neovim/nvim-lspconfig',
+      wants = {
+        'mason.nvim',
+        'mason-lspconfig.nvim',
+        'mason-tool-installer.nvim',
+      },
+      requires = {
+        'williamboman/mason.nvim',
+        'williamboman/mason-lspconfig.nvim',
+        'WhoIsSethDaniel/mason-tool-installer.nvim',
+        'hrsh7th/cmp-nvim-lsp',
+        'hrsh7th/nvim-cmp',
+        'jose-elias-alvarez/null-ls.nvim',
+        'saadparwaiz1/cmp_luasnip',
+        'L3MON4D3/LuaSnip',
+        'onsails/lspkind-nvim',
+      },
+    })
+
+    -- Treesitter provides better syntax highlighting for configured languages
+    use({
+      'nvim-treesitter/nvim-treesitter',
+      run = function()
+        require('nvim-treesitter.install').update({ with_sync = true })
+      end,
+    })
+
+    -- Icons
+    use('kyazdani42/nvim-web-devicons')
+
+    -- Color schemes
+    use({ 'catppuccin/nvim', as = 'catppuccin' })
+
+    -- Tag viewer
+    use('preservim/tagbar')
+
+    -- common utility library
+    use('nvim-lua/plenary.nvim')
+
+    -- Telescope (fuzzy search)
+    use({
+      'nvim-telescope/telescope.nvim',
+      requires = {
+        { 'nvim-lua/plenary.nvim' },
+        { 'gfeiyou/command-center.nvim' },
+        { 'smartpde/telescope-recent-files' },
+        { 'kkharji/sqlite.lua' },
+      },
+    })
+
+    -- Terminals using FTerm
+    use('numToStr/FTerm.nvim')
+
+    -- Markdown preview
+    use({
+      'iamcco/markdown-preview.nvim',
+      run = function()
+        vim.fn['mkdp#util#install']()
+      end,
+    })
+
+    -- Commenting blocks
+    use('b3nj5m1n/kommentary')
+
+    -- Git diff
+    use({ 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' })
+
+    -- Find all in workspace and replace
+    use({ 'windwp/nvim-spectre', requires = 'nvim-lua/plenary.nvim' })
+
+    -- Zig language support
+    use({ 'ziglang/zig.vim' })
+
+    -- Sets the background to light or dark based on the OS theme (only macOS)
+    use('f-person/auto-dark-mode.nvim')
+
+    -- Zettelkasten cmd line tool integration
+    use('mickael-menu/zk-nvim')
+
+    -- Highlights the line you're on (supposed to highlight the word and other instances your on with LSP
+    -- integration, but that doesn't seem to work for me.
+    use('yamatsum/nvim-cursorline')
+
+    -- Status line
+    use({
+      'nvim-lualine/lualine.nvim',
+      requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    })
+
+    -- fancy ui for vim.ui.input and vim.ui.select functionality
+    use({ 'stevearc/dressing.nvim' })
+
+    -- notification toasts
+    use({ 'rcarriga/nvim-notify' })
+
+    -- track LSP status information so we can use it places (such as the statusline)
+    use({ 'nvim-lua/lsp-status.nvim' })
+
+    -- I would like help-y things to open in a split
+    use({ 'anuvyklack/help-vsplit.nvim' })
+
+    -- the lsp virtual text bothers me, too goes off the page. so this should more-or-less fix that
+    use({ 'https://git.sr.ht/~whynothugo/lsp_lines.nvim', as = 'lsp_lines.nvim' })
+
+    -- puts virtual symbols on indentation scopes
+    use({ 'lukas-reineke/indent-blankline.nvim' })
+
+    -- better word traversal, so stuff like camelCase and PascalCase and snake_case will let me
+    -- move through them as I expect to be able to using w/b/e (hint, use this comment as a test
+    -- of the capabilities of the movement)
+    use({ 'chaoren/vim-wordmotion' })
+
+    -- shows a loading widget for lsp symbol loading, I want it there to re-assure me the lsp stuff
+    -- is attached at a glance
+    use({ 'j-hui/fidget.nvim' })
+
+    -- quicker vim motion, trial mode for sure.
+    use({
+      'phaazon/hop.nvim',
+      branch = 'v2',
+    })
+
+    -- Automatically set up your configuration after cloning packer.nvim
+    -- Put this at the end after all plugins
+    if PACKER_BOOTSTRAP then
+      require('packer').sync()
+    end
+  end,
+  config = {
+    display = {
+      open_fn = require('packer.util').float,
     },
-    requires = {
-      'williamboman/mason.nvim',
-      'williamboman/mason-lspconfig.nvim',
-      'WhoIsSethDaniel/mason-tool-installer.nvim',
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/nvim-cmp',
-      'jose-elias-alvarez/null-ls.nvim',
-      'saadparwaiz1/cmp_luasnip',
-      'L3MON4D3/LuaSnip',
-      'onsails/lspkind-nvim',
-    },
-  })
-
-  -- Treesitter provides better syntax highlighting for configured languages
-  use({
-    'nvim-treesitter/nvim-treesitter',
-    run = function()
-      require('nvim-treesitter.install').update({ with_sync = true })
-    end,
-  })
-
-  -- Icons
-  use('kyazdani42/nvim-web-devicons')
-
-  -- Color schemes
-  use({ 'catppuccin/nvim', as = 'catppuccin' })
-
-  -- Tag viewer
-  use('preservim/tagbar')
-
-  -- common utility library
-  use('nvim-lua/plenary.nvim')
-
-  -- Telescope (fuzzy search)
-  use({
-    'nvim-telescope/telescope.nvim',
-    requires = { { 'nvim-lua/plenary.nvim' } },
-  })
-  use({
-    'gfeiyou/command-center.nvim',
-    requires = { 'nvim-telescope/telescope.nvim' },
-  })
-
-  use({ 'smartpde/telescope-recent-files' })
-
-  -- Terminals using FTerm
-  use('numToStr/FTerm.nvim')
-
-  -- Markdown preview
-  use({
-    'iamcco/markdown-preview.nvim',
-    run = function()
-      vim.fn['mkdp#util#install']()
-    end,
-  })
-
-  -- Commenting blocks
-  use('b3nj5m1n/kommentary')
-
-  -- Git diff
-  use({ 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' })
-
-  -- Find all in workspace and replace
-  use({ 'windwp/nvim-spectre', requires = 'nvim-lua/plenary.nvim' })
-
-  -- Zig language support
-  use({ 'ziglang/zig.vim' })
-
-  -- Sets the background to light or dark based on the OS theme (only macOS)
-  use('f-person/auto-dark-mode.nvim')
-
-  -- Zettelkasten cmd line tool integration
-  use('mickael-menu/zk-nvim')
-
-  -- Highlights the line you're on (supposed to highlight the word and other instances your on with LSP
-  -- integration, but that doesn't seem to work for me.
-  use('yamatsum/nvim-cursorline')
-
-  -- Status line
-  use({
-    'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-  })
-
-  -- fancy ui for vim.ui.input and vim.ui.select functionality
-  use({ 'stevearc/dressing.nvim' })
-
-  -- notification toasts
-  use({ 'rcarriga/nvim-notify' })
-
-  -- track LSP status information so we can use it places (such as the statusline)
-  use({ 'nvim-lua/lsp-status.nvim' })
-
-  -- for typescript dev
-  -- Disabling for now because prettier is breaking an include, with `null-ts`. That is overstepping its bounds and I'ma
-  -- put it in time out while I figure out if something so "big" and "opinionated" is appropriate for a plugin that isn't
-  -- hyper-constrainted to whatever project requires such opinions.
-  -- Also, its commented out in init.lua to configure the plugin and lsp.lua to configure the lsp nature of it
-  -- use({ 'MunifTanjim/prettier.nvim', requires = { 'jose-elias-alvarez/null-ls.nvim', 'neovim/nvim-lspconfig' } })
-
-  -- Automatically set up your configuration after cloning packer.nvim
-  -- Put this at the end after all plugins
-  if PACKER_BOOTSTRAP then
-    require('packer').sync()
-  end
-end)
+  },
+})

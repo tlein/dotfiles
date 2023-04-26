@@ -26,10 +26,15 @@ export ZSH=$old_zsh
 # Font instructions for macOS terminal at above link!
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/.oh-my-zsh/custom/themes/powerlevel10k
 
+# build neovim
 git clone https://github.com/neovim/neovim $HOME/Code/neovim
 cd $HOME/Code/neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo
-make install
+sudo make install
 cd $HOME/Code/dotfiles
+
+# rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
 
 ###########################
 # External Assets

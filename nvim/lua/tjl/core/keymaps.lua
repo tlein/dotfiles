@@ -2,7 +2,6 @@ local M = {}
 
 local command_center = require('command_center')
 
-
 M.map = function(mode, lhs, rhs, opts)
   local options = { noremap = false, silent = true }
   if opts then
@@ -12,7 +11,7 @@ M.map = function(mode, lhs, rhs, opts)
 end
 local map = M.map
 
-M.command_center_map = function(command_cmd, command_desc, shortcut_mode, shortcut_keybind)
+M.command_center_map = function(shortcut_mode, shortcut_keybind, command_cmd, command_desc)
   if shortcut_mode then
     command_center.add({
       {
@@ -39,12 +38,6 @@ vim.g.mapleader = ';'
 -- Neovim shortcuts
 -----------------------------------------------------------
 
--- Disable arrow keys
-map('', '<up>', '<nop>')
-map('', '<down>', '<nop>')
-map('', '<left>', '<nop>')
-map('', '<right>', '<nop>')
-
 -- Remap Esc
 map('i', 'jk', '<Esc>')
 
@@ -52,8 +45,8 @@ map('i', 'jk', '<Esc>')
 map('n', '<leader>v', ':nohl<CR>')
 
 -- Create splits
-map('n', '<leader>s', ':vsplit<CR>')
 map('n', '<leader>S', ':split<CR>')
+map('n', '<leader>s', ':vsplit<CR>')
 map('n', '<leader>n', ':vnew<CR>')
 map('n', '<leader>N', ':new<CR>')
 
@@ -64,10 +57,6 @@ map('n', '<leader>k', '<C-w>k')
 map('n', '<leader>l', '<C-w>l')
 
 -- Resize splits
-map('n', '<Up>', '<C-w>+')
-map('n', '<Right>', '<C-w>>')
-map('n', '<Down>', '<C-w>-')
-map('n', '<Left>', '<C-w><')
 map('n', '<S-Up>', '10<C-w>+')
 map('n', '<S-Right>', '10<C-w>>')
 map('n', '<S-Down>', '10<C-w>-')
@@ -75,7 +64,7 @@ map('n', '<S-Left>', '10<C-w><')
 
 -- Reload configuration without restart nvim
 map('n', '<leader>r', ':Restart<CR>')
-command_center_map(':Restart<CR>', "Attempt nvim config reload (probably won't work)", nil, nil)
+command_center_map(nil, nil, ':Restart<CR>', "Attempt nvim config reload (probably won't work)")
 
 -- Fast saving with <leader> and s
 map('n', '<leader>w', ':w<CR>')
@@ -85,7 +74,6 @@ map('n', '<leader>q', ':q<CR>')
 map('n', '<leader>aq', ':q<CR>')
 map('n', '<leader>aaq', ':qa!<CR>')
 
--- :nnoremap <F12> :let &mouse=(empty(&mouse) ? 'a' : '')<CR>
 map('n', '<leader>ts', ":let &background=(&background == 'light' ? 'dark' : 'light')<CR>")
 
 -----------------------------------------------------------
@@ -94,35 +82,62 @@ map('n', '<leader>ts', ":let &background=(&background == 'light' ? 'dark' : 'lig
 
 -- Telescope Maps
 map('n', '<leader>c', ':Telescope command_center<CR>')
-command_center_map(':Telescope find_files<CR>', 'Telescope (Fuzzy search files)', 'n', '<leader>g')
-command_center_map(':Telescope live_grep<CR>', 'Telescope (Grep in files)', 'n', '<C-f>')
+command_center_map('n', '<leader>g', ':Telescope find_files<CR>', 'Telescope (Fuzzy search files)')
+command_center_map('n', '<leader>f', ':Telescope buffers<CR>', 'Telescope (Buffers)')
+command_center_map('n', '<C-f>', ':Telescope live_grep<CR>', 'Telescope (Grep in files)')
 
 -- Packer Sync
-command_center_map(':PackerSync<CR>', 'Packer (Sync)', 'n', '<C-p>')
+command_center_map('n', '<C-p>', ':PackerSync<CR>', 'Packer (Sync)')
 
 -- Fterm (floating terminal)
-command_center_map('<CMD>lua require("FTerm").toggle()<CR>', 'Open Terminal', 'n', '<leader>b')
+command_center_map('n', '<leader>b', '<CMD>lua require("FTerm").toggle()<CR>', 'Open Terminal')
 map('t', '<Esc>', '<CMD>lua require("FTerm").toggle()<CR>')
 map('t', '<Ctrl-d>', '<CMD>lua require("FTerm").toggle()<CR>')
 
 -- NvimTree
-command_center_map(':NvimTreeToggle<CR>', 'Toggle NvimTree', 'n', '<leader>e')
-command_center_map(':NvimTreeRefresh<CR>', 'Refresh NvimTree', 'n', '<C-n>')
-command_center_map(':NvimTreeFindFile<CR>', 'Find current file in NvimTree', 'n', '<C-t>')
+command_center_map('n', '<leader>e', ':NvimTreeToggle<CR>', 'Toggle NvimTree')
+command_center_map('n', '<C-n>', ':NvimTreeRefresh<CR>', 'Refresh NvimTree')
+command_center_map('n', '<C-t>', ':NvimTreeFindFile<CR>', 'Find current file in NvimTree')
 
 -- Markdown
-command_center_map(':MarkdownPreview<CR>', 'Preview Markdown (opens browser)', 'n', '<C-k>')
+command_center_map('n', '<C-k>', ':MarkdownPreview<CR>', 'Preview Markdown (opens browser)')
 
 -- Lsp stuff like Format, Sort imports, etc...
-command_center_map(':lua vim.lsp.buf.format()<CR>', 'Format Entire Document', nil, nil)
-command_center_map(':noa w<CR>', 'Save without formatting', nil, nil)
+command_center_map(nil, nil, ':lua vim.lsp.buf.format()<CR>', 'Format Entire Document')
+command_center_map(nil, nil, ':noa w<CR>', 'Save without formatting')
 
 -- Git diffview
-command_center_map(':DiffviewOpen<CR>', 'Git Diff (Open)', 'n', '<C-g>')
-command_center_map(':DiffviewClose<CR>', 'Git Diff (Close)', 'n', '<C-c>')
+command_center_map('n', '<C-g>', ':DiffviewOpen<CR>', 'Git Diff (Open)')
+command_center_map('n', '<C-c>', ':DiffviewClose<CR>', 'Git Diff (Close)')
+
+-- Test the teg_notify stuff
+command_center_map(
+  nil,
+  nil,
+  ':lua require("tjl/core/teg").notify_info("This is the result of calling `require(\'tjl/core/teg\').notify_info()`!")<CR>',
+  "Test teg's `notify_info`"
+)
+command_center_map(
+  nil,
+  nil,
+  ':lua require("tjl/core/teg").notify_error("This is the result of calling `require(\'tjl/core/teg\').notify_error()`!")<CR>',
+  "Test teg's `notify_error`"
+)
+command_center_map(
+  nil,
+  nil,
+  ':lua require("tjl/core/teg").notify_trace("This is the result of calling `require(\'tjl/core/teg\').notify_trace()`!")<CR>',
+  "Test teg's `notify_trace` (check `:Telescope notify` maybe)"
+)
+command_center_map(nil, nil, ':DiffviewClose<CR>', 'Git Diff (Close)')
 
 -- Spectre (aka Find and Replace)
-command_center_map("<cmd>lua require('spectre').open()<CR>", 'Find and Replace in Workspace (Spectre)', 'n', '<C-j>')
+command_center_map(
+  'n',
+  '<C-j>',
+  "<cmd>lua require('spectre').open()<CR>",
+  'Find and Replace in Workspace (Spectre)'
+)
 
 M.register_zk_keymaps = function()
   -- Don't format on save when dealing with zettelkasten buffers
@@ -141,16 +156,25 @@ M.register_zk_keymaps = function()
   -- Open notes associated with the selected tags.
   map('n', '<leader>zt', '<Cmd>ZkTags<CR>')
   -- Search for the notes matching a given query.
-  map('n', '<leader>zf', "<Cmd>ZkNotes { sort = { 'modified' }, match = vim.fn.input('Search: ') }<CR>")
+  map(
+    'n',
+    '<leader>zf',
+    "<Cmd>ZkNotes { sort = { 'modified' }, match = vim.fn.input('Search: ') }<CR>"
+  )
   -- Search for the notes matching the current visual selection.
   map('v', '<leader>zf', ":'<,'>ZkMatch<CR>")
   -- Create a new note after asking for its title.
-  map('n', '<leader>zn', ':lua require("tjl/extensions/my_zk").create_zettel_of_type("archive")<CR>')
+  map(
+    'n',
+    '<leader>zn',
+    ':lua require("tjl/extensions/my_zk").create_zettel_of_type("archive")<CR>'
+  )
   map('n', '<leader>zzn', ':lua require("tjl/extensions/my_zk").create_zettel()<CR>')
   -- Create a new note in the same directory as the current buffer, using the current selection for title.
   map('v', '<leader>znt', ":'<,'>ZkNewFromTitleSelection { dir = vim.fn.expand('%:p:h') }<CR>")
   -- Create a new note in the same directory as the current buffer, using the current selection for note content and asking for its title.
-  map('v',
+  map(
+    'v',
     '<leader>znc',
     ":'<,'>ZkNewFromContentSelection { dir = vim.fn.expand('%:p:h'), title = vim.fn.input('Title: ') }<CR>"
   )

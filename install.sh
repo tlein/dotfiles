@@ -1,4 +1,5 @@
 #!/bin/bash
+
 case $(uname) in
     Darwin)
         echo "Installing for macOS..."

@@ -6,23 +6,17 @@ sleep 0.5
 
 # Zsh
 rm $HOME/.zshrc
-cmd /c 'mklink C:\msys64\home\tucker\.zshrc /h C:\Users\tucker\Code\dotfiles\zsh\.zshrc'
+cmd /c 'mklink C:\msys64\home\tucker\.zshrc /h C:\msys64\home\tucker\Code\dotfiles\zsh\.zshrc'
 rm $HOME/.zprofile
-cmd /c 'mklink C:\msys64\home\tucker\.zprofile /h C:\Users\tucker\Code\dotfiles\zsh\.zprofile'
+cmd /c 'mklink C:\msys64\home\tucker\.zprofile /h C:\msys64\home\tucker\Code\dotfiles\zsh\.zprofile'
 rm $HOME/.p10k.zsh
-cmd /c 'mklink C:\msys64\home\tucker\.p10k.zsh /h C:\Users\tucker\Code\dotfiles\zsh\.p10k.zsh'
+cmd /c 'mklink C:\msys64\home\tucker\.p10k.zsh /h C:\msys64\home\tucker\Code\dotfiles\zsh\.p10k.zsh'
 rm $HOME/.zprofile.mingw64.zsh
-cmd /c 'mklink C:\msys64\home\tucker\.zprofile.mingw64.zsh /h C:\Users\tucker\Code\dotfiles\zsh\.zprofile.mingw64.zsh'
+cmd /c 'mklink C:\msys64\home\tucker\.zprofile.mingw64.zsh /h C:\msys64\home\tucker\Code\dotfiles\zsh\.zprofile.mingw64.zsh'
 
 # Neovim
 rm /c/Users/tucker/AppData/Local/nvim
-cmd /c 'mklink C:\Users\tucker\AppData\Local\nvim /d C:\Users\tucker\Code\dotfiles\nvim'
-
-# Conan
-cmd /c 'mklink C:\msys64\home\tucker\.conan /d C:\Users\tucker\.conan'
-
-# JFrog Artifactory
-cmd /c 'mklink C:\msys64\home\tucker\jfrog /d C:\Users\tucker\jfrog'
+cmd /c 'mklink C:\Users\tucker\AppData\Local\nvim /d C:\msys64\home\tucker\Code\dotfiles\nvim'
 
 ###########################
 # Programs
@@ -48,23 +42,6 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/.oh-my-zs
 # Neovim
 pacman -S \
     mingw-w64-x86_64-{gcc,libtool,cmake,make,perl,python2,pkgconf,ninja,diffutils}
-
-# Conan
-pacman -S mingw-w64-x86_64-python-pip
-pip3 install conan
-echo "Need to install mingw64 conan profile to C:/Users/tucker/.conan/profiles/mingw64, see below comment for profile"
-# [build_requires]
-# [settings]
-#     os=Windows
-#     os_build=Windows
-#     arch=x86_64
-#     arch_build=x86_64
-#     compiler=gcc
-#     compiler.version=12
-#     compiler.libcxx=libstdc++11
-#     build_type=Debug
-# [options]
-# [env]
 
 # ripgrep
 pacman -S mingw-w64-x86_64-ripgrep

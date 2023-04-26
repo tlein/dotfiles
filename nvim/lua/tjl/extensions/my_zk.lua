@@ -1,16 +1,8 @@
 local M = {}
 
 local keymaps = require('tjl/core/keymaps')
+local teg = require('tjl/core/teg')
 local zk = require('zk')
-
-local zk_info = function(msg, opts)
-  if opts == nil then
-    opts = {}
-  end
-
-  opts.title = 'Zettelkasten'
-  vim.notify(msg, vim.log.levels.INFO, opts)
-end
 
 local zk_error = function(msg, opts)
   if opts == nil then
@@ -18,10 +10,25 @@ local zk_error = function(msg, opts)
   end
 
   opts.title = 'Zettelkasten'
-  vim.notify(msg, vim.log.levels.ERROR, opts)
+  teg.notify_error(msg, { title = 'Zettelkasten' })
 end
 
-M.note_types = { 'archive', 'reference', 'child_reference', 'definition' }
+local zk_trace = function(msg, opts)
+  if opts == nil then
+    opts = {}
+  end
+
+  opts.title = 'Zettelkasten'
+  teg.notify_trace(msg, { title = 'Zettelkasten' })
+end
+
+M.note_types = {
+  'archive',
+  'reference',
+  'child_reference',
+  'definition',
+  'blob',
+}
 
 function M.create_zettel()
   vim.ui.select(M.note_types, { prompt = 'Type?' }, M.create_zettel_of_type)
@@ -62,11 +69,13 @@ function M.create_zettel_of_type_and_title(zettel_type, zettel_title)
     zk_new_opts.dir = 'reference'
   elseif zettel_type == 'definition' then
     zk_new_opts.dir = 'definition'
+  elseif zettel_type == 'blob' then
+    zk_new_opts.dir = 'blob'
   else
     zk_error('Error: Zettel type value was unexpected it was: ' .. zettel_type)
   end
 
-  zk_info(
+  zk_trace(
     'Creating a new zettel of type `'
       .. zettel_type
       .. '`, and with the title: '

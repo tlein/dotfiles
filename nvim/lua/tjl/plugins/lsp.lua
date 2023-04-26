@@ -1,14 +1,15 @@
 -- To add a new lspserver do these steps:
--- 1. Get the name of the plugin, upon writing these instructions I'm evalating an extension called "grammar_guard"
---    because it sounds like an interesting thing to try and add spell-checking to my zk repo nvim
---    experience.
--- 2. To configure the lsp plugin, we use mason. Add it to lsp_servers_and_their_configs to have mason register the lsp.
---    This is the entry point for what is normally manually calling `require("lspconfig").PLUGIN_NAME.setup()`. You can
---    pass params to the eventual call to `require("lspconfig").PLUGIN_NAME.setup()` here as well, it's a table
---    key->value pair of lsp plugin name -> options forwarded to `setup()`.
--- 3. If the plugin requires an external, supporting, application (usually a cli tool) check if it can be installed by
---    running :Mason in nvim, search for the plugin. If it is present, install it and add it to
---    lsp_external_supporting_applications
+-- 1. Get the name of the plugin, upon writing these instructions I'm evalating an extension called
+--    "grammar_guard" because it sounds like an interesting thing to try and add spell-checking to
+--    my zk repo nvim experience.
+-- 2. To configure the lsp plugin, we use mason. Add it to lsp_servers_and_their_configs to have
+--    mason register the lsp. This is the entry point for what is normally manually calling
+--    `require("lspconfig").PLUGIN_NAME.setup()`. You can pass params to the eventual call to
+--    `require("lspconfig").PLUGIN_NAME.setup()` here as well, it's a table key->value pair of lsp
+--    plugin name -> options forwarded to `setup()`.
+-- 3. If the plugin requires an external, supporting, application (usually a cli tool) check if it
+--    can be installed by running :Mason in nvim, search for the plugin. If it is present, install
+--    it and add it to lsp_external_supporting_applications
 
 local M = {}
 
@@ -26,8 +27,13 @@ lsp_status.register_progress()
 -- ## Includes (to assist the module's impl)
 --
 local lspconfig = require('lspconfig') -- base neovim lsp functionality
-local mason = require('mason') -- "a plugin that allows you to easily manage external editor tooling such as LSP servers, DAP servers, linters, and formatters through a single interface"
-local mason_lspconfig = require('mason-lspconfig') -- "mason-lspconfig bridges mason.nvim with the lspconfig plugin - making it easier to use both plugins together."
+
+-- "mason is a plugin that allows you to easily manage external editor tooling such as LSP servers, DAP servers,
+-- linters, and formatters through a single interface"
+local mason = require('mason')
+
+-- "mason-lspconfig bridges mason.nvim with the lspconfig plugin - making it easier to use both plugins together."
+local mason_lspconfig = require('mason-lspconfig')
 local mason_tool_installer = require('mason-tool-installer')
 local cmp = require('cmp')
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
@@ -38,11 +44,13 @@ local teg = require('tjl/core/teg')
 -- ## /Includes (to assist the module's impl)
 --
 -- ## Data (for the module)
+-- Mason configurations (https://github.com/williamboman/mason-lspconfig.nvim/blob/main/doc/server-mapping.md)
 local lsp_servers_and_their_configs = {
   html = {},
   jsonls = {},
   rust_analyzer = {},
-  sumneko_lua = {
+  lua_ls = {
+    nvim_lspconfig_name = 'lua-language-server',
     settings = {
       Lua = {
         runtime = {
@@ -53,7 +61,10 @@ local lsp_servers_and_their_configs = {
         },
         diagnostics = {
           -- Get the language server to recognize the `vim` global
-          globals = { 'vim' },
+          globals = {
+            'vim',
+            'teg',
+          },
         },
         workspace = {
           -- Make the server aware of Neovim runtime files
@@ -69,6 +80,7 @@ local lsp_servers_and_their_configs = {
   tsserver = {},
   taplo = {},
   yamlls = {},
+  clangd = {},
 }
 
 local lsp_external_supporting_applications = {
@@ -79,12 +91,12 @@ local lsp_external_supporting_applications = {
   'shfmt',
   'zls',
   'taplo',
-  -- prettier is in timeout, see packer_init's prettier line for details
-  -- 'prettier',
   'vim-language-server',
   'yaml-language-server',
   'yamlfmt',
   'beautysh',
+  'clangd',
+  'clang-format',
 }
 
 local filetypes_to_ignore_formatting_for = teg.create_set_from_table({
@@ -93,6 +105,17 @@ local filetypes_to_ignore_formatting_for = teg.create_set_from_table({
   'gitconfig',
   'text',
   'markdown',
+  'cmake',
+})
+
+-- Uses `vim.fn.fnamemodify(vim.fn.getcwd(), ':t')` to get the dirname of the cwd (last part of
+-- cwd). Then if that dirname is a key in this map, we can try doing code formatting. This is to
+-- prevent external projects from being something that neovim would attempt to format.
+local projects_to_allow_formatting_for = teg.create_set_from_table({
+  'teg',
+  'dotfiles',
+  'squatbot',
+  'ancona',
 })
 -- ## /Data (for the module)
 --
@@ -115,13 +138,22 @@ null_ls.setup({
     null_ls.builtins.formatting.taplo,
     null_ls.builtins.formatting.beautysh,
     null_ls.builtins.formatting.yamlfmt,
-    -- prettier is in timeout, see packer_init's prettier line for details
-    -- null_ls.builtins.formatting.prettier,
   },
 })
 
+M.get_mason_lsp_server_names = function()
+  local arr = {}
+
+  for k, v in pairs(lsp_servers_and_their_configs) do
+    local lsp_key = v.mason_lspconfig_name_override or k
+    table.insert(arr, lsp_key)
+  end
+
+  return arr
+end
+
 mason_lspconfig.setup({
-  ensure_installed = vim.tbl_keys(lsp_servers_and_their_configs),
+  ensure_installed = M.get_mason_lsp_server_names(),
   automatic_installation = false,
 })
 
@@ -212,12 +244,27 @@ M.my_on_attach = function(client, bufnr)
   end, bufopts)
 end
 
-local TjlFormatOnSaveGroup = vim.api.nvim_create_augroup('tjl_format_on_save_augroup', { clear = true })
+local TjlFormatOnSaveGroup =
+  vim.api.nvim_create_augroup('tjl_format_on_save_augroup', { clear = true })
+
 vim.api.nvim_create_autocmd('BufWritePre', {
   pattern = '*',
   callback = function()
     if filetypes_to_ignore_formatting_for[vim.bo.filetype] ~= nil then
-      teg.notify_trace('This filetype (' .. vim.bo.filetype .. ') is explicitly ignored for formatting!')
+      teg.notify_trace(
+        'This filetype (' .. vim.bo.filetype .. ') is explicitly ignored for formatting!'
+      )
+      return
+    end
+
+    local project_dirname = vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
+    if projects_to_allow_formatting_for[string.lower(project_dirname)] == nil then
+      teg.notify_trace(
+        'This project ('
+          .. project_dirname
+          .. ') is not included in tjl/plugins/lsp.lua projects_to_allow_formatting_for, so '
+          .. 'formatting will not be attempted!'
+      )
       return
     end
 
@@ -230,20 +277,22 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 mason_lspconfig.setup_handlers({
   function(server_name)
     local server_opts = lsp_servers_and_their_configs[server_name] or {}
+    local lsp_key = server_name
+
     server_opts.on_attach = M.my_on_attach
     server_opts.capabilities = M.my_capabilities
-    lspconfig[server_name].setup(server_opts)
+    lspconfig[lsp_key].setup(server_opts)
   end,
 
   -- Example of how to override default config that's done with the initial function directly above, this override
-  -- doesn't currently actually do anything different from the default, but you could change something for sumneko_lua
+  -- doesn't currently actually do anything different from the default, but you could change something for lua_ls
   -- if desired.
-  ['sumneko_lua'] = function()
-    local server_opts = lsp_servers_and_their_configs.sumneko_lua
-    server_opts.on_attach = M.my_on_attach
-    server_opts.capabilities = M.my_capabilities
-    lspconfig.sumneko_lua.setup(server_opts)
-  end,
+  -- ['lua_ls'] = function()
+  --   local server_opts = lsp_servers_and_their_configs.lua_language_server
+  --   server_opts.on_attach = M.my_on_attach
+  --   server_opts.capabilities = M.my_capabilities
+  --   lspconfig['lua-language-server'].setup(server_opts)
+  -- end,
 })
 
 M.enable_trace_logging = function()

@@ -1,4 +1,4 @@
-local my_zk = tjl_require('extensions/my_zk')
+local my_zk = require('tjl/extensions/my_zk')
 
 my_zk.register_zk_keymaps_if_in_notebook()
 

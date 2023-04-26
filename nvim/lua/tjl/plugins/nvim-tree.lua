@@ -19,9 +19,6 @@ nvim_tree.setup({
   -- disable_netrw = false, -> already disabled on `/core/options.lua`
   hijack_netrw = true,
   hijack_unnamed_buffer_when_opening = false,
-  ignore_buffer_on_setup = false,
-  open_on_setup = true,
-  open_on_setup_file = false,
   open_on_tab = true,
   sort_by = 'name',
   reload_on_bufenter = false,
@@ -86,15 +83,14 @@ nvim_tree.setup({
   },
   hijack_directories = { enable = true, auto_open = true },
   update_focused_file = { enable = false, update_cwd = false, ignore_list = {} },
-  ignore_ft_on_setup = {},
   system_open = { cmd = '', args = {} },
   diagnostics = {
     enable = false,
     show_on_dirs = false,
     icons = { hint = '', info = '', warning = '', error = '' },
   },
-  filters = { dotfiles = false, custom = { '.DS_Store', '__.*' }, exclude = {} },
-  git = { enable = true, ignore = true, timeout = 400 },
+  filters = { dotfiles = false, custom = { '.DS_Store', '__.*', '^.git$' }, exclude = {} },
+  git = { enable = true, ignore = false, timeout = 400 },
   actions = {
     use_system_clipboard = true,
     change_dir = { enable = true, global = false, restrict_above_cwd = false },
@@ -133,3 +129,8 @@ nvim_tree.setup({
     },
   },
 })
+
+local function open_nvim_tree()
+  require('nvim-tree.api').tree.open()
+end
+vim.api.nvim_create_autocmd({ 'VimEnter' }, { callback = open_nvim_tree })

@@ -1,6 +1,6 @@
 {
-  "zig_exe_path": "/opt/homebrew/bin/zig",
-  "zig_lib_path": "/opt/homebrew/lib/zig",
+  "zig_exe_path": "/Users/tucker/Code/teg/.bootstrap/bin/zig",
+  "zig_lib_path": "/Users/tucker/Code/teg/.bootstrap/lib/zig",
   "enable_snippets": false,
   "warn_style": true,
   "enable_semantic_tokens": true,

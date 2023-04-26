@@ -5,10 +5,16 @@ sleep 0.5
 # Symbolic Links
 
 # Zsh
+ln -s -f $HOME/Code/dotfiles/zsh/.zshenv $HOME/.zshenv
 ln -s -f $HOME/Code/dotfiles/zsh/.zshrc $HOME/.zshrc
 ln -s -f $HOME/Code/dotfiles/zsh/.zprofile $HOME/.zprofile
 ln -s -f $HOME/Code/dotfiles/zsh/.p10k.zsh $HOME/.p10k.zsh
 ln -s -f $HOME/Code/dotfiles/zsh/.zprofile.macos.zsh $HOME/.zprofile.macos.zsh
+
+# Nix
+ln -s -f $HOME/Code/dotfiles/nix/.nix-defexpr/nixpkgs $HOME/.nix-defexpr
+mkdir -p $HOME/.dotfiles
+ln -s -f $HOME/Code/dotfiles/nix/.dotfiles/env.nix $HOME/.dotfiles/env.nix
 
 # Neovim
 ln -s -f $HOME/Code/dotfiles/nvim $HOME/.config/nvim
@@ -60,3 +66,6 @@ curl -o "MesloLGS NF Bold Italic.ttf" -LO 'https://github.com/romkatv/powerlevel
 cd $HOME/Code/dotfiles
 
 echo "Done! No further action need, though you might want to reboot your terminal"
+
+# Try to setup nix standard env (this script doesn't install nix though, too complex, so this could easily fail on a new system
+nix-env -irf $HOME/.dotfiles/env.nix
