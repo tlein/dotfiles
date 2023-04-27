@@ -90,7 +90,7 @@ nvim_tree.setup({
     icons = { hint = '', info = '', warning = '', error = '' },
   },
   filters = { dotfiles = false, custom = { '.DS_Store', '__.*', '^.git$' }, exclude = {} },
-  git = { enable = true, ignore = false, timeout = 400 },
+  git = { enable = true, ignore = true, timeout = 400 },
   actions = {
     use_system_clipboard = true,
     change_dir = { enable = true, global = false, restrict_above_cwd = false },

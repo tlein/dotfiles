@@ -140,7 +140,7 @@ return packer.startup({
     -- I would like help-y things to open in a split
     use({ 'anuvyklack/help-vsplit.nvim' })
 
-    -- the lsp virtual text bothers me, too goes off the page. so this should more-or-less fix that
+    -- the lsp virtual text bothers me, goes too far off the page. this should more-or-less fix it.
     use({ 'https://git.sr.ht/~whynothugo/lsp_lines.nvim', as = 'lsp_lines.nvim' })
 
     -- puts virtual symbols on indentation scopes
@@ -154,12 +154,6 @@ return packer.startup({
     -- shows a loading widget for lsp symbol loading, I want it there to re-assure me the lsp stuff
     -- is attached at a glance
     use({ 'j-hui/fidget.nvim' })
-
-    -- quicker vim motion, trial mode for sure.
-    use({
-      'phaazon/hop.nvim',
-      branch = 'v2',
-    })
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins

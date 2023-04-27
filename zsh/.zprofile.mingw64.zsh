@@ -1,16 +1,20 @@
-# neovim
-alias gvim="nvim"
+# OS-level environment variables
+export EDITOR='nvim'
+export LANG=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
+export WINDOWS_USER_HOME=/c/Users/tucker
 
-# teg
+# App specific environment variables
+## dotfiles
+export DOTFILES_HOME=$HOME/Code/dotfiles
+## teg
 export TEG_HOME=$HOME/Code/teg
-
-# smarterslate
-export CV_HOME=$HOME/Code/smarterslate
-export CV_EXTLIBS_DIR=$HOME/.circavia/extlibs
-
-# conan
-export PATH=$PATH:$HOME/.local/bin
-
-# go
+## Squatbot
+export SQUATBOT_HOME=$HOME/Code/ILikeDucks/squatbot
+## Dropbox
+export DROPBOX_HOME=$WINDOWS_USER_HOME/Dropbox
+## zettelkasten notebook location
+export ZK_NOTEBOOK_DIR=$DROPBOX_HOME/zettelkasten_tjl
+## go
 export GOROOT=/mingw64/lib/go
 export GOPATH=/mingw64

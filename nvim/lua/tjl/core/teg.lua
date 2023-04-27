@@ -2,6 +2,11 @@ local M = {}
 
 local plenary_async = require('plenary.async')
 
+-- String utils
+M.string_starts_with = function(string_to_check, with_string)
+  return string.sub(string_to_check, 1, string.len(with_string)) == with_string
+end
+
 -- Table utils
 M.merge_tables = function(table1, table2)
   return vim.tbl_extend('keep', table1 or {}, table2 or {})

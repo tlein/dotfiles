@@ -78,7 +78,6 @@ local lsp_servers_and_their_configs = {
   bashls = {},
   omnisharp = {},
   tsserver = {},
-  taplo = {},
   yamlls = {},
   clangd = {},
 }
@@ -90,14 +89,17 @@ local lsp_external_supporting_applications = {
   'codelldb',
   'shfmt',
   'zls',
-  'taplo',
   'vim-language-server',
   'yaml-language-server',
   'yamlfmt',
-  'beautysh',
   'clangd',
-  'clang-format',
 }
+if vim.loop.os_uname().sysname ~= 'Windows_NT' then
+  -- These application installs use something that doesn't behave well on my Windows system (such
+  -- as `python venv`)
+  lsp_external_supporting_applications.insert('beautysh')
+  lsp_external_supporting_applications.insert('clang-format')
+end
 
 local filetypes_to_ignore_formatting_for = teg.create_set_from_table({
   'vim',
@@ -135,7 +137,6 @@ null_ls.setup({
   sources = {
     null_ls.builtins.formatting.stylua,
     null_ls.builtins.formatting.zigfmt,
-    null_ls.builtins.formatting.taplo,
     null_ls.builtins.formatting.beautysh,
     null_ls.builtins.formatting.yamlfmt,
   },

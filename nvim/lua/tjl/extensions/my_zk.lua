@@ -86,9 +86,21 @@ function M.create_zettel_of_type_and_title(zettel_type, zettel_title)
   zk.new(zk_new_opts)
 end
 
+M.is_in_zk_notebook_dir = function()
+  if vim.loop.os_uname().sysname == 'Windows_NT' then
+    -- Windows specific solution to detecting zk notebook because Windows is special like that.
+    return teg.string_starts_with(
+      vim.fn.expand('%:p'),
+      'C:\\Users\\tucker\\Dropbox\\zettelkasten_tjl'
+    )
+  else
+    return require('zk.util').notebook_root(vim.fn.expand('%:p')) ~= nil
+  end
+end
+
 M.register_zk_keymaps_if_in_notebook = function()
   -- Add the key mappings only for Markdown files in a zk notebook.
-  if require('zk.util').notebook_root(vim.fn.expand('%:p')) ~= nil then
+  if M.is_in_zk_notebook_dir() then
     keymaps.register_zk_keymaps()
   end
 end
