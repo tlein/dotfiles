@@ -1,6 +1,6 @@
 local M = {}
 
-local command_center = require('command_center')
+local commander = require('commander')
 
 M.map = function(mode, lhs, rhs, opts)
   local options = { noremap = false, silent = true }
@@ -11,25 +11,25 @@ M.map = function(mode, lhs, rhs, opts)
 end
 local map = M.map
 
-M.command_center_map = function(shortcut_mode, shortcut_keybind, command_cmd, command_desc)
+M.commander_map = function(shortcut_mode, shortcut_keybind, command_cmd, command_desc)
   if shortcut_mode then
-    command_center.add({
+    commander.add({
       {
-        description = command_desc,
+        desc = command_desc,
         cmd = command_cmd,
-        keybindings = { { shortcut_mode, shortcut_keybind, { noremap = true } } },
+        keys = { { shortcut_mode, shortcut_keybind, { noremap = true } } },
       },
     })
   else
-    command_center.add({
+    commander.add({
       {
-        description = command_desc,
+        desc = command_desc,
         cmd = command_cmd,
       },
     })
   end
 end
-local command_center_map = M.command_center_map
+local commander_map = M.commander_map
 
 -- Change leader to a semi-colon
 vim.g.mapleader = ';'
@@ -64,7 +64,7 @@ map('n', '<S-Left>', '10<C-w><')
 
 -- Reload configuration without restart nvim
 map('n', '<leader>r', ':Restart<CR>')
-command_center_map(nil, nil, ':Restart<CR>', "Attempt nvim config reload (probably won't work)")
+commander_map(nil, nil, ':Restart<CR>', "Attempt nvim config reload (probably won't work)")
 
 -- Fast saving with <leader> and s
 map('n', '<leader>w', ':w<CR>')
@@ -81,58 +81,58 @@ map('n', '<leader>ts', ":let &background=(&background == 'light' ? 'dark' : 'lig
 -----------------------------------------------------------
 
 -- Telescope Maps
-map('n', '<leader>c', ':Telescope command_center<CR>')
-command_center_map('n', '<leader>g', ':Telescope find_files<CR>', 'Telescope (Fuzzy search files)')
-command_center_map('n', '<leader>f', ':Telescope buffers<CR>', 'Telescope (Buffers)')
-command_center_map('n', '<C-f>', ':Telescope live_grep<CR>', 'Telescope (Grep in files)')
+map('n', '<leader>c', ':Telescope commander<CR>')
+commander_map('n', '<leader>g', ':Telescope find_files<CR>', 'Telescope (Fuzzy search files)')
+commander_map('n', '<leader>f', ':Telescope buffers<CR>', 'Telescope (Buffers)')
+commander_map('n', '<C-f>', ':Telescope live_grep<CR>', 'Telescope (Grep in files)')
 
 -- Packer Sync
-command_center_map('n', '<C-p>', ':PackerSync<CR>', 'Packer (Sync)')
+commander_map('n', '<C-p>', ':PackerSync<CR>', 'Packer (Sync)')
 
 -- Fterm (floating terminal)
-command_center_map('n', '<leader>b', '<CMD>lua require("FTerm").toggle()<CR>', 'Open Terminal')
+commander_map('n', '<leader>b', '<CMD>lua require("FTerm").toggle()<CR>', 'Open Terminal')
 map('t', '<Esc>', '<CMD>lua require("FTerm").toggle()<CR>')
 map('t', '<Ctrl-d>', '<CMD>lua require("FTerm").toggle()<CR>')
 
 -- NvimTree
-command_center_map('n', '<leader>e', ':NvimTreeToggle<CR>', 'Toggle NvimTree')
-command_center_map('n', '<C-n>', ':NvimTreeRefresh<CR>', 'Refresh NvimTree')
-command_center_map('n', '<C-t>', ':NvimTreeFindFile<CR>', 'Find current file in NvimTree')
+commander_map('n', '<leader>e', ':NvimTreeToggle<CR>', 'Toggle NvimTree')
+commander_map('n', '<C-n>', ':NvimTreeRefresh<CR>', 'Refresh NvimTree')
+commander_map('n', '<C-t>', ':NvimTreeFindFile<CR>', 'Find current file in NvimTree')
 
 -- Markdown
-command_center_map('n', '<C-k>', ':MarkdownPreview<CR>', 'Preview Markdown (opens browser)')
+commander_map('n', '<C-k>', ':MarkdownPreview<CR>', 'Preview Markdown (opens browser)')
 
 -- Lsp stuff like Format, Sort imports, etc...
-command_center_map(nil, nil, ':lua vim.lsp.buf.format()<CR>', 'Format Entire Document')
-command_center_map(nil, nil, ':noa w<CR>', 'Save without formatting')
+commander_map(nil, nil, ':lua vim.lsp.buf.format()<CR>', 'Format Entire Document')
+commander_map(nil, nil, ':noa w<CR>', 'Save without formatting')
 
 -- Git diffview
-command_center_map('n', '<C-g>', ':DiffviewOpen<CR>', 'Git Diff (Open)')
-command_center_map('n', '<C-c>', ':DiffviewClose<CR>', 'Git Diff (Close)')
+commander_map('n', '<C-g>', ':DiffviewOpen<CR>', 'Git Diff (Open)')
+commander_map('n', '<C-c>', ':DiffviewClose<CR>', 'Git Diff (Close)')
 
 -- Test the teg_notify stuff
-command_center_map(
+commander_map(
   nil,
   nil,
   ':lua require("tjl/core/teg").notify_info("This is the result of calling `require(\'tjl/core/teg\').notify_info()`!")<CR>',
   "Test teg's `notify_info`"
 )
-command_center_map(
+commander_map(
   nil,
   nil,
   ':lua require("tjl/core/teg").notify_error("This is the result of calling `require(\'tjl/core/teg\').notify_error()`!")<CR>',
   "Test teg's `notify_error`"
 )
-command_center_map(
+commander_map(
   nil,
   nil,
   ':lua require("tjl/core/teg").notify_trace("This is the result of calling `require(\'tjl/core/teg\').notify_trace()`!")<CR>',
   "Test teg's `notify_trace` (check `:Telescope notify` maybe)"
 )
-command_center_map(nil, nil, ':DiffviewClose<CR>', 'Git Diff (Close)')
+commander_map(nil, nil, ':DiffviewClose<CR>', 'Git Diff (Close)')
 
 -- Spectre (aka Find and Replace)
-command_center_map(
+commander_map(
   'n',
   '<C-j>',
   "<cmd>lua require('spectre').open()<CR>",

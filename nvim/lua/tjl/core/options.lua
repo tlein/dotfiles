@@ -9,6 +9,9 @@ vim.opt.clipboard = 'unnamedplus' -- Copy/paste to system clipboard
 vim.opt.swapfile = false -- Don't use swapfile
 vim.opt.completeopt = 'menuone,noinsert,noselect' -- Autocomplete options
 
+vim.g.do_filetype_lua = true -- new native filetype, opt-in preview mode currently, so I'm opting-in
+vim.g.did_load_filetypes = false -- new native filetype, opt-in preview mode currently, so I'm opting-in
+
 -----------------------------------------------------------
 -- Neovim UI
 -----------------------------------------------------------
@@ -33,7 +36,9 @@ vim.opt.listchars:append('space:⋅')
 -- THIS IS ALSO SET IN tjl/core/autocmds.lua!
 vim.wo.wrap = false -- Turn off word wrap
 
-vim.diagnostic.config({ virtual_text = true }) -- Change lsp error meta text into fancy "virtual" text so it doesn't occupy same space as normal nvim buffer code
+-- Setting vim.diagnostic.config is now controlled by the lsp_lines plugin, but I wanted to leaves
+-- this here for historical purposes, however silly that really is to do.
+-- vim.diagnostic.config({ virtual_text = true }) -- Change lsp error meta text into fancy "virtual" text so it doesn't occupy same space as normal nvim buffer code
 
 -----------------------------------------------------------
 -- Tabs, indent

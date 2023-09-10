@@ -153,7 +153,7 @@ return packer.startup({
 
     -- shows a loading widget for lsp symbol loading, I want it there to re-assure me the lsp stuff
     -- is attached at a glance
-    use({ 'j-hui/fidget.nvim' })
+    use({ 'j-hui/fidget.nvim', tag = 'legacy' })
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins

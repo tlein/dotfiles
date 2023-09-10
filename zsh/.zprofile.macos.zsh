@@ -33,8 +33,8 @@ if [[ -f '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]]; then
     source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
     export NIX_PATH="$HOME/.nix-defexpr"
 fi
-## neovim
-export PATH=$HOME/Code/neovim/bin:$PATH
+## apps folder
+export PATH=$PATH:$HOME/Apps
 ## Android, use it quite a bit for building Squatbot
 export PATH=$ANDROID_NDK:$PATH
 export PATH=$ANDROID_HOME/platform-tools:$PATH

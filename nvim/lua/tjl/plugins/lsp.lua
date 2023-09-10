@@ -50,7 +50,6 @@ local lsp_servers_and_their_configs = {
   jsonls = {},
   rust_analyzer = {},
   lua_ls = {
-    nvim_lspconfig_name = 'lua-language-server',
     settings = {
       Lua = {
         runtime = {
@@ -80,6 +79,7 @@ local lsp_servers_and_their_configs = {
   tsserver = {},
   yamlls = {},
   clangd = {},
+  wgsl_analyzer = {},
 }
 
 local lsp_external_supporting_applications = {
@@ -93,12 +93,14 @@ local lsp_external_supporting_applications = {
   'yaml-language-server',
   'yamlfmt',
   'clangd',
+  'wgsl-analyzer',
 }
+
 if vim.loop.os_uname().sysname ~= 'Windows_NT' then
   -- These application installs use something that doesn't behave well on my Windows system (such
   -- as `python venv`)
-  lsp_external_supporting_applications.insert('beautysh')
-  lsp_external_supporting_applications.insert('clang-format')
+  table.insert(lsp_external_supporting_applications, 'beautysh')
+  table.insert(lsp_external_supporting_applications, 'clang-format')
 end
 
 local filetypes_to_ignore_formatting_for = teg.create_set_from_table({
@@ -118,6 +120,8 @@ local projects_to_allow_formatting_for = teg.create_set_from_table({
   'dotfiles',
   'squatbot',
   'ancona',
+  'jat', -- rufus game
+  'parallel_programming_course',
 })
 -- ## /Data (for the module)
 --
@@ -278,7 +282,7 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 mason_lspconfig.setup_handlers({
   function(server_name)
     local server_opts = lsp_servers_and_their_configs[server_name] or {}
-    local lsp_key = server_name
+    local lsp_key = server_opts.nvim_lspconfig_name or server_name
 
     server_opts.on_attach = M.my_on_attach
     server_opts.capabilities = M.my_capabilities
