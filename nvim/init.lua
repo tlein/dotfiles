@@ -6,7 +6,7 @@
 --------------------------------------------
 -- Initialize Packer (Plugin Manager)
 teg = require('tjl/core/teg')
-require('tjl/packer_init')
+require('tjl/lazy_init')
 
 ------------------------------------------
 -- Load core vim settings

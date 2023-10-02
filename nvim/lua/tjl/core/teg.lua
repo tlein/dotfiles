@@ -1,7 +1,5 @@
 local M = {}
 
-local plenary_async = require('plenary.async')
-
 -- String utils
 M.string_starts_with = function(string_to_check, with_string)
   return string.sub(string_to_check, 1, string.len(with_string)) == with_string
@@ -47,17 +45,5 @@ end
 
 -- UI Module
 M.ui = {}
-
-M.ui.async_input = plenary_async.wrap(function(prompt, text, completion, callback)
-  vim.ui.input({
-    prompt = prompt,
-    default = text,
-    completion = completion,
-  }, callback)
-end, 4)
-
-M.ui.async_select = plenary_async.wrap(function(items, opts, callback)
-  vim.ui.select(items, opts, callback)
-end, 4)
 
 return M

@@ -31,8 +31,9 @@ M.commander_map = function(shortcut_mode, shortcut_keybind, command_cmd, command
 end
 local commander_map = M.commander_map
 
--- Change leader to a semi-colon
+-- Change leader to a semi-colon, ALSO SET IN lazy_init.lua FOR LAZY
 vim.g.mapleader = ';'
+vim.g.maplocaleader = ';'
 
 -----------------------------------------------------------
 -- Neovim shortcuts
