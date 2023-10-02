@@ -6,7 +6,6 @@ require('nvim-treesitter.configs').setup({
     'query',
     'markdown',
     'zig',
-    'bash',
     'rust',
     'wgsl',
     'wgsl_bevy',

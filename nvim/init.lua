@@ -41,6 +41,7 @@ require('tjl/plugins/fidget')
 -- trial mode below this line
 require('tjl/plugins/indent-blankline')
 require('tjl/plugins/vim-wordmotion')
+require('tjl/plugins/arena')
 
 vim.defer_fn(function()
   vim.api.nvim_command('colorscheme catppuccin')

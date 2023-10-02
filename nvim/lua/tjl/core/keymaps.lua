@@ -83,7 +83,7 @@ map('n', '<leader>ts', ":let &background=(&background == 'light' ? 'dark' : 'lig
 -- Telescope Maps
 map('n', '<leader>c', ':Telescope commander<CR>')
 commander_map('n', '<leader>g', ':Telescope find_files<CR>', 'Telescope (Fuzzy search files)')
-commander_map('n', '<leader>f', ':Telescope buffers<CR>', 'Telescope (Buffers)')
+commander_map('n', '<leader>f', '<CMD> lua require("arena").toggle()<CR>', 'Arena Fecency')
 commander_map('n', '<C-f>', ':Telescope live_grep<CR>', 'Telescope (Grep in files)')
 
 -- Packer Sync

@@ -155,6 +155,11 @@ return packer.startup({
     -- is attached at a glance
     use({ 'j-hui/fidget.nvim', tag = 'legacy' })
 
+    -- frecency buffers for individual sessions
+    use({
+      'dzfrias/arena.nvim',
+    })
+
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if PACKER_BOOTSTRAP then
