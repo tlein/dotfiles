@@ -52,6 +52,7 @@ local lsp_servers_and_their_configs = {
   lua_ls = {
     settings = {
       Lua = {
+        hint = { enable = true },
         runtime = {
           -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
           version = 'LuaJIT',
@@ -247,6 +248,12 @@ M.my_on_attach = function(client, bufnr)
   vim.keymap.set('n', '<space>f', function()
     vim.lsp.buf.format({ async = true })
   end, bufopts)
+  if vim.lsp.inlay_hint then
+    vim.keymap.set('n', '<leader>uh', function()
+      vim.lsp.inlay_hint(0, nil)
+    end, { desc = 'Toggle Inlay Hints' })
+  else
+  end
 end
 
 local TjlFormatOnSaveGroup =
